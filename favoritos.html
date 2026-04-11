@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TurismES - Favoritos</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Plus Jakarta Sans Font -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#713623",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#ebeef4",
+                        "on-tertiary-fixed": "#390c01",
+                        "secondary-container": "#a0f399",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#a5604a",
+                        "surface-container-low": "#f1f3fa",
+                        "surface-container-high": "#e6e8ee",
+                        "primary": "#005e97",
+                        "on-primary-fixed": "#001d34",
+                        "surface-dim": "#d7dae0",
+                        "on-primary-fixed-variant": "#004a79",
+                        "surface-tint": "#00629e",
+                        "surface-bright": "#f7f9ff",
+                        "surface-container-highest": "#e0e2e9",
+                        "primary-fixed": "#cfe5ff",
+                        "error": "#ba1a1a",
+                        "outline": "#707882",
+                        "tertiary": "#884834",
+                        "inverse-on-surface": "#eef1f7",
+                        "secondary-fixed": "#a3f69c",
+                        "on-tertiary-container": "#fff7f5",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "background": "#f7f9ff",
+                        "on-surface-variant": "#404751",
+                        "primary-fixed-dim": "#9acbff",
+                        "surface": "#f7f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e0e2e9",
+                        "secondary": "#1b6d24",
+                        "inverse-surface": "#2d3136",
+                        "on-surface": "#181c20",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#005312",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#217128",
+                        "secondary-fixed-dim": "#88d982",
+                        "primary-container": "#0077be",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-primary-container": "#f7f9ff",
+                        "inverse-primary": "#9acbff",
+                        "outline-variant": "#c0c7d2",
+                        "on-secondary-fixed": "#002204",
+                        "on-background": "#181c20"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9ff]/70 dark:bg-[#181c20]/70 backdrop-blur-xl shadow-[0px_12px_32px_rgba(24,28,32,0.06)] flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#005e97] dark:text-[#0077be] hover:opacity-80 transition-opacity active:scale-95 transition-transform" data-icon="menu">menu</span>
+</div>
+<h1 class="text-2xl font-extrabold text-[#005e97] dark:text-[#0077be] tracking-tight font-['Plus_Jakarta_Sans']">TurismES</h1>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a smiling young person with curly hair in soft natural outdoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD4xzCVMau7ONFsiqc4MSFgFKPIx1psxkcnKnj91EGaj90rthSZoNRjPGsByS7NlSJVGNudLpLAmxdcIdoWWRx1WHfI0qB5afmpo8Z5k4S7dqY0GMu1Xx2Qr7C_XVnUo_jB7kP7oyjatq8vWTfrm4ABgfbNMBBxx3dqUJwUSMZTcmeleAmcQwr8cRoXZb6izV-__SUJuoLY4xid8tthVmKnwasJDh_gQ_KgexZLAcflOiEtgKuYTXy4SjDNiOt4NOaYmABzSEdyHI4"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-5xl mx-auto">
+<!-- Header Section -->
+<header class="mb-10">
+<h2 class="text-3xl font-extrabold text-on-surface tracking-tight mb-2">Meus Favoritos</h2>
+<p class="text-on-surface-variant max-w-md">Os lugares que conquistaram seu coração no Espírito Santo.</p>
+</header>
+<!-- Bento Grid for Favorites -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Convento da Penha -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-lg overflow-hidden transition-all duration-300 hover:translate-y-[-4px]">
+<div class="relative h-72 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="ancient colonial white convent perched on a jagged lush green mountain peak overlooking the ocean at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBquidZAma9oH-sjhaLtbo-wTBgqAIUtBWXk6im6zbpiYsk1znVASkbJ1THHOBxZlT9zOWZBzL5372kEp9bt2nKk_n7ITu4ZDkbUSgMBpocN40fHkSKaBAgJ-Z57C3-dg_6pZ5OlfkEYtYydHFUVm8yBUD_roXfvCyRiRkUWXyhqpMIM5ffMl3J0xKCpcp-uqz9HM-E1ov7PYd-14tksSEr3Xe7gA-2UmrO3iVbc7tdruekcx5TGVp13Rm8mDYcmMt9sHVB-hG7cy9m"/>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full shadow-lg">
+<span class="material-symbols-outlined filled-icon text-tertiary" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary/90 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-sm">Histórico</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="text-xl font-bold text-on-surface mb-1">Convento da Penha</h3>
+<div class="flex items-center text-on-surface-variant text-sm mb-6">
+<span class="material-symbols-outlined text-xs mr-1" data-icon="location_on">location_on</span>
+                        Vila Velha
+                    </div>
+<button class="mt-auto w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-full transition-all active:scale-95 shadow-lg shadow-primary/20">
+                        Planejar Visita
+                    </button>
+</div>
+</article>
+<!-- Pedra Azul -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-lg overflow-hidden transition-all duration-300 hover:translate-y-[-4px]">
+<div class="relative h-72 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="massive majestic granite mountain with a lizard-shaped peak surrounded by pine trees under a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSCrlQ_zg5ZdRUPf5yzt-GjF77L5YGjPpwczNkm23g25zxdQ2Y4dgo5QiUvw8zwG5zemf5TTxzKTUM7uvN-stXN4KVTsPX4flj6od_De105eZvqooYT59iUnYJCLRSD7Azv1IGEWcBBH_GkvyQHpnLlGuk0uUM6btXnxSf0NcCVa4nHSTsuCIpPAlQG4JzTIywGJQbbFuv3YPAqCsXkf_Vb4AhVzEDZre3Afo-oljbEF6v6QvHYWIkwtizdl4KWgow5m2kTs1lovN6"/>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full shadow-lg">
+<span class="material-symbols-outlined filled-icon text-tertiary" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-secondary text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-sm">Montanhas</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="text-xl font-bold text-on-surface mb-1">Pedra Azul</h3>
+<div class="flex items-center text-on-surface-variant text-sm mb-6">
+<span class="material-symbols-outlined text-xs mr-1" data-icon="location_on">location_on</span>
+                        Domingos Martins
+                    </div>
+<button class="mt-auto w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-full transition-all active:scale-95 shadow-lg shadow-primary/20">
+                        Planejar Visita
+                    </button>
+</div>
+</article>
+<!-- Praia do Morro -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-lg overflow-hidden transition-all duration-300 hover:translate-y-[-4px]">
+<div class="relative h-72 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="wide urban sandy beach with turquoise water and high-rise buildings in the background under morning sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL5Ilyz-2hJQ_dgEpx4C2A13O3W1OHainO_fXfZDL09WbclcksUIICwzpF6G0JmuslEYf2-ix3EsSMW8YJrgSuoznk3g_977Y7atipV_o-oWpdvz-FDLby3vswTx6lDg29S5jtDwYo8Qk_dGd4Mx7PnIn8HjLwpm_fvWLUOKdJbxDLiVpx4sdaU3LW4STGnr36gz8wFmkczwaX8El6in-x0_hnMczjOOK9BiF5R-KJpvKkVRtfm2iBzeGGf13uWeK2ZDuPsYboog7W"/>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full shadow-lg">
+<span class="material-symbols-outlined filled-icon text-tertiary" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary/90 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-sm">Litoral</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="text-xl font-bold text-on-surface mb-1">Praia do Morro</h3>
+<div class="flex items-center text-on-surface-variant text-sm mb-6">
+<span class="material-symbols-outlined text-xs mr-1" data-icon="location_on">location_on</span>
+                        Guarapari
+                    </div>
+<button class="mt-auto w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-full transition-all active:scale-95 shadow-lg shadow-primary/20">
+                        Planejar Visita
+                    </button>
+</div>
+</article>
+<!-- Mosteiro Zen -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-lg overflow-hidden transition-all duration-300 hover:translate-y-[-4px]">
+<div class="relative h-72 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="colossal majestic sitting buddha statue in a serene mountain setting with oriental architecture and misty background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp_HfK0q_IxNrBG1m6uXHRnNJaGZJo4ijPRzNH8ILIWqWRkl4jY-LCG-q1MsXfhdEZEaanCJb0n__N95ZAAM6WxB0F3k_H8TYxi5sGJG4UXwVFMQY_WPLBPZVfj3NQutSCFOLEfKkG9SCyOkkQZ1nULIKWuZxLZyexIZ-UHZ9Hs1f3R4TVLXlR5QpJ_cIhIorFKnRIkQgl9cEJz1ptf4ATkLM2N9Ay8Euwb1ipbK6Udo7-_b-Zdg2Q9_GRgtZ93RNJz8QaKjST9X1W"/>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full shadow-lg">
+<span class="material-symbols-outlined filled-icon text-tertiary" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-tertiary text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-sm">Espiritualidade</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="text-xl font-bold text-on-surface mb-1">Mosteiro Zen Morro da Vargem</h3>
+<div class="flex items-center text-on-surface-variant text-sm mb-6">
+<span class="material-symbols-outlined text-xs mr-1" data-icon="location_on">location_on</span>
+                        Ibiraçu
+                    </div>
+<button class="mt-auto w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-full transition-all active:scale-95 shadow-lg shadow-primary/20">
+                        Planejar Visita
+                    </button>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[2rem] bg-[#f7f9ff]/70 dark:bg-[#181c20]/70 backdrop-blur-xl shadow-[0px_-8px_24px_rgba(24,28,32,0.04)] flex justify-around items-center h-20 px-4 pb-safe">
+<!-- Explorar -->
+<a class="flex flex-col items-center justify-center text-[#404751] dark:text-[#e0e2e9] hover:bg-[#f1f3fa] dark:hover:bg-[#404751] transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Explorar</span>
+</a>
+<!-- Favoritos (Active) -->
+<a class="flex flex-col items-center justify-center text-[#005e97] dark:text-[#0077be] bg-[#005e97]/10 rounded-full px-4 py-1 transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined filled-icon" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Favoritos</span>
+</a>
+<!-- Roteiros -->
+<a class="flex flex-col items-center justify-center text-[#404751] dark:text-[#e0e2e9] hover:bg-[#f1f3fa] dark:hover:bg-[#404751] transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Roteiros</span>
+</a>
+<!-- Perfil -->
+<a class="flex flex-col items-center justify-center text-[#404751] dark:text-[#e0e2e9] hover:bg-[#f1f3fa] dark:hover:bg-[#404751] transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Perfil</span>
+</a>
+</nav>
+</body></html>
