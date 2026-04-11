@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#fff7f5",
+                        "primary": "#005e97",
+                        "primary-container": "#0077be",
+                        "on-primary-container": "#f7f9ff",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#a5604a",
+                        "secondary-container": "#a0f399",
+                        "inverse-surface": "#2d3136",
+                        "on-secondary-fixed": "#002204",
+                        "surface-variant": "#e0e2e9",
+                        "inverse-on-surface": "#eef1f7",
+                        "surface-tint": "#00629e",
+                        "outline": "#707882",
+                        "primary-fixed-dim": "#9acbff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e0e2e9",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#713623",
+                        "background": "#f7f9ff",
+                        "tertiary": "#884834",
+                        "secondary-fixed-dim": "#88d982",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9ff",
+                        "surface-container-high": "#e6e8ee",
+                        "secondary-fixed": "#a3f69c",
+                        "surface-container": "#ebeef4",
+                        "surface-container-low": "#f1f3fa",
+                        "surface-bright": "#f7f9ff",
+                        "on-secondary-container": "#217128",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#001d34",
+                        "outline-variant": "#c0c7d2",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#390c01",
+                        "on-background": "#181c20",
+                        "inverse-primary": "#9acbff",
+                        "on-surface-variant": "#404751",
+                        "error": "#ba1a1a",
+                        "on-surface": "#181c20",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "primary-fixed": "#cfe5ff",
+                        "surface-dim": "#d7dae0",
+                        "secondary": "#1b6d24",
+                        "on-primary-fixed-variant": "#004a79",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-secondary-fixed-variant": "#005312"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .timeline-line { background: linear-gradient(to bottom, #1b6d24 0%, #1b6d24 80%, transparent 100%); }
+        .glass-effect { backdrop-filter: blur(20px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9ff]/70 dark:bg-slate-950/70 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Profile" data-alt="close-up portrait of a smiling young traveler with a friendly expression in soft natural outdoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2kQJyo0NWJcbeTNfTO6Wj5S9H81cGZLfswmURndt4-0e4wBx88LH3UIpdjGlY5jwZO_diVxIo1y6IcsZm9b50qVH9kDuR1eH2zF5eZTk-2zLjlvo2m87tHdPlyA2AwaHfini0MmMY3Gy2Y1KixBOmzHFmGKiShUmAaCeIpuOTuXf0p2vfLEh7cNaMyHrVlAMGX_-AGfK9k4hU0opNPnyUDYOVEMEWE5Gm0ARxgxmfL70lMiyXHISKSEMYzmDSOXzOtmUSDyk23-PM"/>
+</div>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-xl font-extrabold text-[#005e97] dark:text-[#0077be]">TurismES</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#005e97] text-2xl" data-icon="notifications">notifications</span>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto">
+<!-- Header Section -->
+<section class="mb-10">
+<div class="flex justify-between items-end mb-4">
+<div>
+<span class="text-secondary font-bold text-xs uppercase tracking-widest mb-2 block">Roteiro Atual</span>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface leading-tight">Vitória &amp; <br/>Vila Velha</h2>
+</div>
+<button class="bg-tertiary text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="map">map</span>
+<span class="font-bold text-sm">Ver no Mapa</span>
+</button>
+</div>
+<div class="flex gap-4">
+<div class="bg-surface-container-low px-4 py-2 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="distance">distance</span>
+<span class="text-on-surface-variant text-sm font-semibold">18.5 km total</span>
+</div>
+<div class="bg-surface-container-low px-4 py-2 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="schedule">schedule</span>
+<span class="text-on-surface-variant text-sm font-semibold">8h de passeio</span>
+</div>
+</div>
+</section>
+<!-- Timeline Section -->
+<div class="relative">
+<!-- Vertical Line -->
+<div class="absolute left-[19px] top-4 bottom-4 w-1 timeline-line rounded-full opacity-30"></div>
+<!-- Stop 1 -->
+<div class="relative pl-14 mb-12">
+<div class="absolute left-0 top-1 w-10 h-10 bg-surface-container-lowest rounded-full flex items-center justify-center border-4 border-secondary shadow-sm z-10">
+<span class="material-symbols-outlined text-secondary text-xl" data-icon="church">church</span>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="text-secondary font-bold text-lg">09:00</span>
+<span class="bg-secondary-container/30 text-on-secondary-container text-[10px] font-extrabold px-3 py-1 rounded-full uppercase">Parada 01</span>
+</div>
+<div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-sm group">
+<div class="h-48 w-full overflow-hidden">
+<img alt="Convento da Penha" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="historic colonial monastery Convento da Penha perched on a lush green cliffside overlooking the blue ocean under a bright morning sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALO0zJA0pnt_0cNln21v5Fr3ecqWKAJn9DpVXkFRNW40qL1YWgNTNj2T-sK7aU4JBoooPPLwIrY11u5-9erwi_UDnJ6hiZmwdxWojltsjGflk_7b9HxUDzDCtPMl8kuwdM_OWHDamcILxY5mPF62qwF_E-9oBJkY757dxEwbTVxR_z1oks0Tue1WuVLY_JliMpmKl4GwaGYIWRY2b6XMxq8XpViezR1940wlcz7oge1vXlqW4iM8lHckB2zitqA5w_T1dpY-5em4q_"/>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold text-on-surface mb-1">Convento da Penha</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Inicie o dia com a vista panorâmica mais icônica do Espírito Santo no topo do penhasco.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant text-xs font-medium ml-1">
+<span class="material-symbols-outlined text-sm" data-icon="directions_car">directions_car</span>
+<span>25 min até a próxima parada (12km)</span>
+</div>
+</div>
+</div>
+<!-- Stop 2 -->
+<div class="relative pl-14 mb-12">
+<div class="absolute left-0 top-1 w-10 h-10 bg-surface-container-lowest rounded-full flex items-center justify-center border-4 border-secondary shadow-sm z-10">
+<span class="material-symbols-outlined text-secondary text-xl" data-icon="restaurant">restaurant</span>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="text-secondary font-bold text-lg">12:30</span>
+<span class="bg-secondary-container/30 text-on-secondary-container text-[10px] font-extrabold px-3 py-1 rounded-full uppercase">Almoço</span>
+</div>
+<div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-sm group">
+<div class="h-48 w-full overflow-hidden">
+<img alt="Moqueca Capixaba" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="traditional Moqueca Capixaba fish stew serving in a rustic black clay pot with fresh cilantro garnish and vibrant orange broth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB95um0-MdfGutLrbo_0IEelwGjrTLAhBKhzyPMHJz7Cvb9N29yEOUJ6fi_NQBT7eyABFrQMPqjv4jrSTKAr0IiDIcpP_eui5-LFl8zHhKPqHUthmiFOKSXjpPo-LKwgSA7tQH419gRzS38T3cBmcTXhb8y-gECPJDumbnhnoHRklQFmdjMqWcGa8U7mdeStiV1yeLYmg-HiAT9VdRAfIcF7rzrz4Yioa0vSYxzNbSa_YJbFN56JNKSe-Fo3TZFtgLaN40aMpiM2GC-"/>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold text-on-surface mb-1">Ilha das Caieiras</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Experiência gastronômica autêntica com a verdadeira Moqueca Capixaba à beira do manguezal.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant text-xs font-medium ml-1">
+<span class="material-symbols-outlined text-sm" data-icon="directions_car">directions_car</span>
+<span>15 min até a próxima parada (6.5km)</span>
+</div>
+</div>
+</div>
+<!-- Stop 3 -->
+<div class="relative pl-14">
+<div class="absolute left-0 top-1 w-10 h-10 bg-surface-container-lowest rounded-full flex items-center justify-center border-4 border-secondary shadow-sm z-10">
+<span class="material-symbols-outlined text-secondary text-xl" data-icon="wb_sunny">wb_sunny</span>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="text-secondary font-bold text-lg">16:00</span>
+<span class="bg-secondary-container/30 text-on-secondary-container text-[10px] font-extrabold px-3 py-1 rounded-full uppercase">Pôr do Sol</span>
+</div>
+<div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-sm group">
+<div class="h-48 w-full overflow-hidden">
+<img alt="Curva da Jurema" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="stunning golden sunset over a calm tropical beach with silhouettes of palm trees and vibrant orange and pink sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMEeoLOOz4IYkVgj0DFpfuqvAcqLi6UaWXF4-oC3zu_DPH8UqOioEQl6tNAtjqcFftiXUxKCR36ILsXffIPykppvws3Clw-AoCvQoW9q6siqUTWY-fx-ocPv1SThCIFPgCvpKrrvQFxJBomfva02T0joOBmZRaZjpihj_ZrQ-6n5czEcydmzTdkQW66Cz87V9HAm1_pO484b6HDekz1ZT4510QlGyXABA_zN-H3SGT4qvIicQu2F3eS3j0FfTGVrADDBV8uP6gGHUI"/>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold text-on-surface mb-1">Curva da Jurema</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Relaxe nos quiosques modernos enquanto aprecia o pôr do sol entre Vitória e a Terceira Ponte.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[2rem] bg-[#f7f9ff]/70 dark:bg-slate-950/70 backdrop-blur-xl shadow-[0px_-12px_32px_rgba(24,28,32,0.06)] flex justify-around items-center pt-3 pb-8 px-4">
+<a class="flex flex-col items-center justify-center text-[#404751] dark:text-slate-400 hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold mt-1">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404751] dark:text-slate-400 hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold mt-1">Mapa</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#005e97] dark:text-[#0077be] drop-shadow-[0_0_8px_rgba(0,94,151,0.3)] hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="map" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold mt-1">Roteiro</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404751] dark:text-slate-400 hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold mt-1">Favoritos</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404751] dark:text-slate-400 hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold mt-1">Perfil</span>
+</a>
+</nav>
+</body></html>
