@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TurismES - Explore o Espírito Santo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#fff7f5",
+                        "primary": "#005e97",
+                        "primary-container": "#0077be",
+                        "on-primary-container": "#f7f9ff",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#a5604a",
+                        "secondary-container": "#a0f399",
+                        "inverse-surface": "#2d3136",
+                        "on-secondary-fixed": "#002204",
+                        "surface-variant": "#e0e2e9",
+                        "inverse-on-surface": "#eef1f7",
+                        "surface-tint": "#00629e",
+                        "outline": "#707882",
+                        "primary-fixed-dim": "#9acbff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e0e2e9",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#713623",
+                        "background": "#f7f9ff",
+                        "tertiary": "#884834",
+                        "secondary-fixed-dim": "#88d982",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9ff",
+                        "surface-container-high": "#e6e8ee",
+                        "secondary-fixed": "#a3f69c",
+                        "surface-container": "#ebeef4",
+                        "surface-container-low": "#f1f3fa",
+                        "surface-bright": "#f7f9ff",
+                        "on-secondary-container": "#217128",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#001d34",
+                        "outline-variant": "#c0c7d2",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#390c01",
+                        "on-background": "#181c20",
+                        "inverse-primary": "#9acbff",
+                        "on-surface-variant": "#404751",
+                        "error": "#ba1a1a",
+                        "on-surface": "#181c20",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "primary-fixed": "#cfe5ff",
+                        "surface-dim": "#d7dae0",
+                        "secondary": "#1b6d24",
+                        "on-primary-fixed-variant": "#004a79",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-secondary-fixed-variant": "#005312"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f7f9ff]/70 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="text-xl font-extrabold text-[#005e97] tracking-tight font-['Plus_Jakarta_Sans']">TurismES</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#404751] hover:opacity-80 transition-opacity cursor-pointer">notifications</span>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="profile portrait of a smiling young traveler with soft natural outdoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp0D_7Hfx278YUy5Lc6_Nw2K7IJX1WZMaCTvm6CQK0H41pQCULo2XGWYBejGPAZruKatNb6o0wxrW4Z9yAWdwBEmCgsP64mOALs65fcEHJ18xCyHM6m7JSwRQMatLwq29RsXOKjHZZk4YkuT6Y_lv7WDhW-SZQQCyqCrtv54lUGB01muM-ebyTdaGY7sGZ6T15NZx59Kk87cy6XYFChuDuyDiGtM8em7st2FBY9seYe-AaMCmdgYSO9Utnm5IqDZuypLcP356DvYaT"/>
+</div>
+</div>
+</nav>
+<main class="pb-24 pt-20">
+<!-- Hero Section -->
+<section class="px-6 mb-10">
+<div class="relative w-full h-[460px] rounded-lg overflow-hidden flex flex-col justify-end p-8 bg-surface-container-highest">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="majestic wide shot of Convento da Penha perched on a rocky hill in Vila Velha at sunrise with golden warm light and ocean in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB3NFMxr7qXROd3jd2X2S6oV6ax85V0OJWEqsbdpSG7UV7QgWq6d7gwF0PSPQhVXu2YqOBakQRZlVwXdG3i5rI3pV19qPVu6TpSsoCuXXOxOMY9FsRL6tU7jJs2D5SCnAUZ5aO2fHgdtyx6gtqEFLLrp7dWAJyUSf3McRecgyctGzjYypqKyhDmvYTlGKwXFOUaikskbJjgMTBpcHM8Q8ruqSai4hkrqz2ed4fD9AOO2r9ut8z4whcYpzlysOcWBBjKQbRUL2fSZHD"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-transparent to-transparent"></div>
+<div class="relative z-10">
+<h1 class="text-white text-4xl font-extrabold tracking-tight mb-2 leading-tight">Sua jornada capixaba começa aqui.</h1>
+<p class="text-white/80 text-lg mb-6 max-w-[280px]">Descubra qual destino mais combina com você.</p>
+<button class="bg-tertiary text-on-tertiary px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all">
+                        Iniciar Quiz
+                        <span class="material-symbols-outlined">quiz</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Quick Categories -->
+<section class="mb-10">
+<div class="px-6 flex justify-between items-end mb-4">
+<h2 class="text-2xl font-bold tracking-tight text-on-surface">Explorar por</h2>
+</div>
+<div class="flex gap-4 overflow-x-auto px-6 hide-scrollbar">
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-3xl">terrain</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest">Montanhas</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-3xl">beach_access</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest">Praias</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined text-3xl">restaurant</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest">Gastronomia</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-3xl">account_balance</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest">História</span>
+</div>
+</div>
+</section>
+<!-- Destinos em Destaque -->
+<section>
+<div class="px-6 flex justify-between items-end mb-6">
+<div>
+<h2 class="text-2xl font-bold tracking-tight text-on-surface">Destinos em Destaque</h2>
+<p class="text-on-surface-variant text-sm">Os favoritos da temporada</p>
+</div>
+<button class="text-primary font-bold text-sm">Ver todos</button>
+</div>
+<div class="flex gap-6 overflow-x-auto px-6 hide-scrollbar pb-4">
+<!-- Card 1: Pedra Azul -->
+<div class="flex-shrink-0 w-72 bg-surface-container-lowest rounded-lg overflow-hidden flex flex-col">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="dramatic view of Pedra Azul rock formation in Domingos Martins with lush green forests and misty mountains under soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqdzTD92SBTft3cxociHXJiZScrj6dxV1QNinv5GdS4kvjaOzPxYXPEuPbFsy6gTCpg6J5eoAGCPohd0vX07xzZzVcWoQd7fWRY9bBt4ehNcU-eCK_KhmuF_OFTntTxK2H0isTAltgbRgTaqOsLK3dRSzHvA8HgxZXY91HQMrWw_9nPhTj1X8e-F1L06F7pF28avOSMNKeS8FWhWxmAwnJVjpRyHTudQGYI0jN8lOHD0_tyXn431ddSs9qBdab76KOibx8eB7IlFb6"/>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-white text-[10px] font-bold uppercase tracking-widest">
+                            Montanha
+                        </div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold mb-1">Pedra Azul</h3>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm mb-3">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                            Domingos Martins, ES
+                        </div>
+<div class="flex items-center justify-between">
+<span class="text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                4.9
+                            </span>
+<span class="text-primary font-bold">Explorar</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Guarapari -->
+<div class="flex-shrink-0 w-72 bg-surface-container-lowest rounded-lg overflow-hidden flex flex-col">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="crystalline turquoise water at Bacutia beach in Guarapari with smooth dark rocks and blue sky on a bright sunny day" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE3SS84GAJYnYdSPkeq1DLLkM7swPmw3Ir0a_H3ln7Dz0ya_1UZafs5o9STPh4BpH0IWGctrRWFbtb0OeAq8Id8dJ7y5kCu8qeBIV0OGizMbsVHOKQDBOKpmeK3isHufJAgs56ZMqIx0FdZStfSOou_xZT-In0e4n0jJByK0xkU0UbA-JB7ppcBBrhnb6LajDQiuLI9bTgQ2cPuyZsVE6loHmSiILUyNHd-FXC1oRBqBztMJx_qniFSPiFV4JdnznABuKdwI8T4pvm"/>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-white text-[10px] font-bold uppercase tracking-widest">
+                            Praia
+                        </div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold mb-1">Guarapari</h3>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm mb-3">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                            Litoral Sul, ES
+                        </div>
+<div class="flex items-center justify-between">
+<span class="text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                4.7
+                            </span>
+<span class="text-primary font-bold">Explorar</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Domingos Martins -->
+<div class="flex-shrink-0 w-72 bg-surface-container-lowest rounded-lg overflow-hidden flex flex-col">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="charming european-style architecture in the center of Domingos Martins with colorful flowers and clean streets in a mountain town setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZcUPhqU8ZC_TbUmDtx5VD39maI2RIKbJy7FO1Z-pE2gVkMy9EwACEiBtVmkuMPD_dsvnygE2xdq-mDRtQ0_Jq-AT_H4NkTVQlyA4CEau396Eo61ITv78Xb4Zgjq9YtzuFtXccTcsE5vxIsDPvZhYMroFimsI0rNXQHF5J28slmByY9xUzw1pXjGp900MwKyoQvb6wtX_WMsoh-jR2k33mdz5oMLkR0oqOicpAEjn8Vy3S0mEFfR7eFmH8_BfDtCL8pBZOD8nVhX5P"/>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-white text-[10px] font-bold uppercase tracking-widest">
+                            Cultura
+                        </div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold mb-1">Domingos Martins</h3>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm mb-3">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                            Região Serrana, ES
+                        </div>
+<div class="flex items-center justify-between">
+<span class="text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                4.8
+                            </span>
+<span class="text-primary font-bold">Explorar</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[2rem] bg-[#f7f9ff]/70 backdrop-blur-xl shadow-[0px_-12px_32px_rgba(24,28,32,0.06)] flex justify-around items-center pt-3 pb-8 px-4">
+<a class="flex flex-col items-center justify-center text-[#005e97] drop-shadow-[0_0_8px_rgba(0,94,151,0.3)] hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404751] hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Mapa</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404751] hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Roteiro</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404751] hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Favoritos</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404751] hover:translate-y-[-2px] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest font-bold">Perfil</span>
+</a>
+</nav>
+</body></html>
