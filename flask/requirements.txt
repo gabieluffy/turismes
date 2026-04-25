@@ -1,0 +1,7 @@
+# para instalar as dependencias do projeto, basta rodar o comando abaixo no terminal, dentro do ambiente virtual do projeto:
+# pip install -r requirements.txt
+flask
+flask_sqlalchemy 
+flask_login 
+flask_bcrypt 
+python-dotenv
