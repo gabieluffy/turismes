@@ -3,13 +3,24 @@ from .extensions import db, login_manager, bcrypt
 from .models import User
 from .routes import main
 from config import Config
-
+from .seed import seed_database
+from sqlalchemy.exc import OperationalError
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    db.init_app(app)
+    try:
+        db.init_app(app)
+        with app.app_context():
+            db.engine.connect()
+            seed_database()
+
+        print("Banco conectado com sucesso!")
+    except OperationalError as e:
+        print("Erro ao conectar ao banco:")
+        print(e)
+
     login_manager.init_app(app)
     bcrypt.init_app(app)
 

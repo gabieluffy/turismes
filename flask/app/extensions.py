@@ -6,4 +6,5 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 
-login_manager.login_view = "login"
+#login_manager.login_view = "login"
+login_manager.login_view = "main.login"
