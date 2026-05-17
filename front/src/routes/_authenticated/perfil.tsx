@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({
@@ -18,7 +19,14 @@ const options = [
 ];
 
 function PerfilPage() {
+  const { logout } = useAuth();
   const navigate = useNavigate();
+  
+  function sair(){
+    logout();
+    navigate({ to: "/login" });
+  }
+
   return (
     <div className="bg-surface text-on-surface min-h-screen pb-32">
       <TopBar avatar={false} />
@@ -82,7 +90,7 @@ function PerfilPage() {
 
         <section className="mb-12">
           <button
-            onClick={() => navigate({ to: "/login" })}
+            onClick={() => sair()}
             className="w-full py-4 px-6 rounded-full bg-surface-container-highest text-error font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
           >
             <Icon name="logout" />

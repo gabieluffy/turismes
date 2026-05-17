@@ -1,5 +1,7 @@
 from .models.user import User
 from .extensions import db, bcrypt
+from flask_jwt_extended import (create_access_token)
+from flask import jsonify
 
 def create_user(username, email, password):
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -17,9 +19,32 @@ def create_user(username, email, password):
 
 
 def authenticate_user(email, password):
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(
+        email=email
+    ).first()
 
-    if user and bcrypt.check_password_hash(user.password, password):
-        return user
+    if not user:
+        return jsonify({
+            "error": "Usuário não encontrado"
+        }), 401
 
-    return None
+    if not bcrypt.check_password_hash(
+        user.password,
+        password
+    ):
+        return jsonify({
+            "error": "Senha inválida"
+        }), 401
+
+    access_token = create_access_token(
+        identity=str(user.id)
+    )
+
+    return jsonify({
+        "token": access_token,
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email
+        }
+    })

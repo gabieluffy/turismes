@@ -1,8 +1,7 @@
-from flask import Blueprint, request, jsonify
-from flask_login import login_user, logout_user, login_required
+from flask import Blueprint, request, jsonify, render_template
+from flask_jwt_extended import jwt_required
 from ..auth import create_user, authenticate_user
-from flask import request, render_template, redirect, url_for, flash
-from flask_login import login_required, current_user
+from app.models.place import Place
 
 main = Blueprint("main", __name__)
 
@@ -11,38 +10,32 @@ main = Blueprint("main", __name__)
 def register():
     data = request.json
 
-    user = create_user(
+    create_user(
         username=data["username"],
         email=data["email"],
         password=data["password"]
     )
-
     return jsonify({"message": "Usuário criado com sucesso"}), 201
 
-@main.route("/login", methods=["GET", "POST"])
+@main.route("/login", methods=["POST"])
 def login():
-    if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
 
-        user = authenticate_user(email, password)
+    data = request.get_json()
 
-        if user:
-            login_user(user)
-            return redirect(url_for("main.home"))
-        else:
-            flash("Credenciais inválidas", "error")
+    email = data.get("email")
+    password = data.get("password")
 
-    return render_template("login.html")
+    return authenticate_user(email=email, password=password)
 
 
-@main.route("/logout", methods=["POST"])
-@login_required
-def logout():
-    logout_user()
-    return jsonify({"message": "Logout realizado"})
 
-@main.route("/home")
-@login_required
-def home():
-    return render_template("home.html", user=current_user)
+@main.route("/todos_pontos_turisticos",methods=["GET"])
+@jwt_required()
+def todos_pontos_turisticos():
+
+    places = Place.query.all()
+
+    return jsonify([
+        Place.to_dict(place)
+        for place in places
+    ])

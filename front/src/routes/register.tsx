@@ -1,25 +1,52 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate  } from '@tanstack/react-router'
 import { Icon } from "@/components/Icon";
 import { useState } from "react";
+import { useAuth } from '@/hooks/useAuth';
 
-export const Route = createFileRoute("/_authenticated/login")({
+export const Route = createFileRoute("/register")({
   head: () => ({
-    meta: [{ title: "Entrar — TurismES" }],
+    meta: [
+      { title: "Criar conta — TurismES" },
+      { name: "description", content: "Crie sua conta no TurismES e comece a explorar o Espírito Santo." },
+    ],
   }),
-  component: LoginPage,
+  component: RegisterPage,
 });
 
-function LoginPage() {
+function RegisterPage() {
   const navigate = useNavigate();
+  const { register } = useAuth();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [showPwd, setShowPwd] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    navigate({ to: "/home" });
+    setError("");
+    if (!name || !email || !password) {
+      setError("Preencha todos os campos.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("A senha deve ter no mínimo 6 caracteres.");
+      return;
+    }
+    if (password !== confirm) {
+      setError("As senhas não coincidem.");
+      return;
+    }
+    try {
+        
+        await register(email, password, name);
+        
+        navigate({ to: "/login" });
+    } catch (error) {
+        console.error(error)
+    }
   }
-
   return (
     <div className="bg-surface text-on-surface min-h-screen flex items-center justify-center p-4 relative">
       <div className="fixed inset-0 z-[-1] overflow-hidden">
@@ -30,37 +57,46 @@ function LoginPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-on-surface/20" />
       </div>
-
       <main className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-extrabold tracking-tighter text-primary mb-2">
             TurismES
           </h1>
           <p className="text-on-surface-variant font-medium text-sm tracking-wide uppercase">
-            Explore o Espírito Santo
+            Crie sua conta
           </p>
         </div>
-
         <div className="glass-panel rounded-2xl p-8 shadow-[0px_12px_32px_rgba(24,28,32,0.06)] border border-white/20">
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-on-surface tracking-tight">
-              Bem-vindo de volta
+              Bem-vindo ao TurismES
             </h2>
             <p className="text-on-surface-variant mt-1">
-              Sentimos sua falta! Entre para continuar sua jornada.
+              Cadastre-se para começar sua jornada capixaba.
             </p>
           </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-on-surface-variant ml-1">
+                Nome
+              </label>
+              <div className="relative">
+                <Icon name="person" className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
+                <input
+                  className="w-full bg-surface-container-lowest border-none rounded-xl pl-12 pr-4 py-3.5 text-on-surface focus:ring-2 focus:ring-primary shadow-sm"
+                  placeholder="Seu nome"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-on-surface-variant ml-1">
                 E-mail
               </label>
               <div className="relative">
-                <Icon
-                  name="mail"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-outline"
-                />
+                <Icon name="mail" className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
                 <input
                   className="w-full bg-surface-container-lowest border-none rounded-xl pl-12 pr-4 py-3.5 text-on-surface focus:ring-2 focus:ring-primary shadow-sm"
                   placeholder="seu@email.com"
@@ -70,24 +106,15 @@ function LoginPage() {
                 />
               </div>
             </div>
-
             <div className="space-y-2">
-              <div className="flex justify-between items-center px-1">
-                <label className="text-sm font-semibold text-on-surface-variant">
-                  Senha
-                </label>
-                <a className="text-xs font-bold text-primary" href="#">
-                  Esqueceu?
-                </a>
-              </div>
+              <label className="block text-sm font-semibold text-on-surface-variant ml-1">
+                Senha
+              </label>
               <div className="relative">
-                <Icon
-                  name="lock"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-outline"
-                />
+                <Icon name="lock" className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
                 <input
                   className="w-full bg-surface-container-lowest border-none rounded-xl pl-12 pr-12 py-3.5 text-on-surface focus:ring-2 focus:ring-primary shadow-sm"
-                  placeholder="••••••••"
+                  placeholder="Mínimo 6 caracteres"
                   type={showPwd ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -101,40 +128,36 @@ function LoginPage() {
                 </button>
               </div>
             </div>
-
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-on-surface-variant ml-1">
+                Confirmar senha
+              </label>
+              <div className="relative">
+                <Icon name="lock" className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
+                <input
+                  className="w-full bg-surface-container-lowest border-none rounded-xl pl-12 pr-4 py-3.5 text-on-surface focus:ring-2 focus:ring-primary shadow-sm"
+                  placeholder="Repita sua senha"
+                  type={showPwd ? "text" : "password"}
+                  value={confirm}
+                  onChange={(e) => setConfirm(e.target.value)}
+                />
+              </div>
+            </div>
+            {error && (
+              <p className="text-sm text-red-600 font-medium">{error}</p>
+            )}
             <button
               type="submit"
               className="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold py-4 rounded-full shadow-lg hover:opacity-90 active:scale-95 transition-all"
             >
-              Entrar na Conta
+              Criar Conta
             </button>
           </form>
-
-          <div className="mt-8">
-            <div className="relative flex items-center mb-6">
-              <div className="flex-grow border-t border-outline-variant/30" />
-              <span className="flex-shrink mx-4 text-xs font-bold text-outline tracking-widest uppercase">
-                Ou entre com
-              </span>
-              <div className="flex-grow border-t border-outline-variant/30" />
-            </div>
-            <button
-              type="button"
-              onClick={() => navigate({ to: "/home" })}
-              className="w-full flex items-center justify-center gap-3 bg-surface-container-lowest border border-outline-variant/20 py-3.5 rounded-full text-on-surface-variant font-semibold shadow-sm hover:bg-surface-container-low"
-            >
-              <span className="w-5 h-5 inline-flex items-center justify-center font-bold text-primary">
-                G
-              </span>
-              Entrar com Google
-            </button>
-          </div>
         </div>
-
         <p className="text-center mt-8 text-on-surface/70 font-medium">
-          Não tem uma conta?
-          <Link to="/home" className="text-primary font-bold ml-1 hover:underline">
-            Criar conta agora
+          Já tem uma conta?
+          <Link to="/login" className="text-primary font-bold ml-1 hover:underline">
+            Entrar
           </Link>
         </p>
       </main>

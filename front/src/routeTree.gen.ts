@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedRoteiroRouteImport } from './routes/_authenticated/roteiro'
@@ -16,10 +18,19 @@ import { Route as AuthenticatedResultadoRouteImport } from './routes/_authentica
 import { Route as AuthenticatedQuizRouteImport } from './routes/_authenticated/quiz'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedMapaRouteImport } from './routes/_authenticated/mapa'
-import { Route as AuthenticatedLoginRouteImport } from './routes/_authenticated/login'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -54,11 +65,6 @@ const AuthenticatedMapaRoute = AuthenticatedMapaRouteImport.update({
   path: '/mapa',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedLoginRoute = AuthenticatedLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -72,9 +78,10 @@ const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/home': typeof AuthenticatedHomeRoute
-  '/login': typeof AuthenticatedLoginRoute
   '/mapa': typeof AuthenticatedMapaRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/quiz': typeof AuthenticatedQuizRoute
@@ -82,9 +89,10 @@ export interface FileRoutesByFullPath {
   '/roteiro': typeof AuthenticatedRoteiroRoute
 }
 export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/home': typeof AuthenticatedHomeRoute
-  '/login': typeof AuthenticatedLoginRoute
   '/mapa': typeof AuthenticatedMapaRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/quiz': typeof AuthenticatedQuizRoute
@@ -95,9 +103,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
-  '/_authenticated/login': typeof AuthenticatedLoginRoute
   '/_authenticated/mapa': typeof AuthenticatedMapaRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/quiz': typeof AuthenticatedQuizRoute
@@ -109,9 +118,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/login'
+    | '/register'
     | '/favoritos'
     | '/home'
-    | '/login'
     | '/mapa'
     | '/perfil'
     | '/quiz'
@@ -119,9 +129,10 @@ export interface FileRouteTypes {
     | '/roteiro'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/login'
+    | '/register'
     | '/favoritos'
     | '/home'
-    | '/login'
     | '/mapa'
     | '/perfil'
     | '/quiz'
@@ -131,9 +142,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/login'
+    | '/register'
     | '/_authenticated/favoritos'
     | '/_authenticated/home'
-    | '/_authenticated/login'
     | '/_authenticated/mapa'
     | '/_authenticated/perfil'
     | '/_authenticated/quiz'
@@ -144,10 +156,26 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -197,13 +225,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMapaRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/login': {
-      id: '/_authenticated/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof AuthenticatedLoginRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/home': {
       id: '/_authenticated/home'
       path: '/home'
@@ -224,7 +245,6 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
-  AuthenticatedLoginRoute: typeof AuthenticatedLoginRoute
   AuthenticatedMapaRoute: typeof AuthenticatedMapaRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedQuizRoute: typeof AuthenticatedQuizRoute
@@ -236,7 +256,6 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
-  AuthenticatedLoginRoute: AuthenticatedLoginRoute,
   AuthenticatedMapaRoute: AuthenticatedMapaRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedQuizRoute: AuthenticatedQuizRoute,
@@ -251,6 +270,8 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

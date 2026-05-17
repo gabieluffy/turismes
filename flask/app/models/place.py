@@ -24,3 +24,21 @@ class Place(db.Model):
     tags = db.Column(db.String(500))
 
     featured = db.Column(db.Boolean, default=False)
+
+
+    def to_dict(self):
+
+        return {
+            "id": self.id,
+            "name": self.name,
+            "city": self.city,
+            "region": self.region,
+            "category": self.category,
+            "description": self.description,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "image_url": self.image_url,
+            "average_rating": self.average_rating,
+            "tags": self.tags,
+            "featured": self.featured
+        }
