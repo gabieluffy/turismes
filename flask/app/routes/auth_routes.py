@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_user, logout_user, login_required
-from .auth import create_user, authenticate_user
+from ..auth import create_user, authenticate_user
 from flask import request, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 

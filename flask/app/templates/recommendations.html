@@ -1,0 +1,13 @@
+{% for item in places %}
+
+<div class="card">
+
+    <h2>{{ item.place.name }}</h2>
+
+    <p>{{ item.place.description }}</p>
+
+    <p>Score: {{ item.score }}</p>
+
+</div>
+
+{% endfor %}
