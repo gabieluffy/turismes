@@ -7,3 +7,4 @@ flask_bcrypt
 python-dotenv
 dotenv
 flask-jwt-extended
+flask-cors
