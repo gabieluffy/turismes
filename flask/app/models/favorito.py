@@ -2,7 +2,7 @@ from app.extensions import db
 
 class Favorito(db.Model):
     __tablename__= "favorito"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     id_user = db.Column(
         db.Integer,
@@ -18,3 +18,11 @@ class Favorito(db.Model):
     
     user = db.relationship("User", backref="favorito")
     place = db.relationship("Place", backref="favorito")
+
+    def to_dict(self):
+
+        return {
+            "id": self.id,
+            "user": self.user.to_dict(),
+            "place": self.place.to_dict()
+        }

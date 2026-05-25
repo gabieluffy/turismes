@@ -7,7 +7,7 @@ from .models.avaliacao import Avaliacao
 from .models.categoria import Categoria
 from .models.cidade import Cidade
 from .models.favorito import Favorito
-from .routes.auth_routes import main
+from app.routes.auth_routes import main
 from config import Config
 from .seed import seed_database
 from sqlalchemy.exc import OperationalError

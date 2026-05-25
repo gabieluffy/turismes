@@ -23,3 +23,12 @@ class Avaliacao(db.Model):
 
     user = db.relationship("User", backref="avaliacao")
     place = db.relationship("Place", backref="avaliacao")
+
+    def to_dic(self):
+        return {
+            "id": self.id,    
+            "comentario": self.comentario,
+            "nota": self.nota,
+            "id_user": self.id_user,
+            "id_place": self.id_place 
+        }
