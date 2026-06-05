@@ -15,7 +15,9 @@ type AuthContextType = {
   get_all_places: PlaceType[];
   busca_places: (token: string) => Promise<void>;
   get_all_favorites_places: FavoritePlaceType[];
-  buscar_favorites_places: (token: string) => Promise<void>
+  buscar_favorites_places: (token: string) => Promise<void>;
+  dados: any[];
+  grafico: () => Promise<void>
 };
 
 export interface PlaceType {
@@ -63,6 +65,7 @@ export function AuthProvider({
     useState(false);
   const [get_all_places, setAll_Places] = useState<PlaceType[]>([])
   const [get_all_favorites_places, setAll_favorites_places] = useState<FavoritePlaceType[]>([])
+  const [dados, setDados] = useState<any[]>([]);
 
   useEffect(() => {
 
@@ -196,6 +199,16 @@ export function AuthProvider({
     }
   }
 
+  async function grafico() {
+    try {
+      fetch(`${host}/grafico`)
+            .then(res => res.json())
+            .then(data => setDados(data));
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
     return (
       <AuthContext.Provider
         value={{
@@ -206,7 +219,9 @@ export function AuthProvider({
           get_all_places,
           busca_places,
           get_all_favorites_places,
-          buscar_favorites_places
+          buscar_favorites_places,
+          dados,
+          grafico
         }}
       >
         {children}

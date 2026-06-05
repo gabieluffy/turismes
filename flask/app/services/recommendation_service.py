@@ -1,4 +1,6 @@
 from app.models.place import Place
+from app.extensions import db, text
+
 
 class RecommendationService:
 
@@ -51,3 +53,24 @@ class RecommendationService:
         )
 
         return recommendations[:10]
+    
+    @staticmethod
+    def grafico():
+        """ 
+        ## Dados para gráfico
+        Esse gráfico mostra o total de recomendaçõees feitas pós quiz para a persona
+        """
+        
+        resultado = db.session.execute(
+            text("""
+            SELECT 
+                categoria."name" AS categoria, 
+                COUNT(place.id) AS recomendacao
+            FROM categoria 
+            INNER JOIN place   
+                ON categoria.id_palce = place.id
+            GROUP BY categoria.name;
+            """)
+        ).mappings()
+
+        return [dict(row) for row in resultado]

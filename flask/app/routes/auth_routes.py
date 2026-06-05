@@ -8,6 +8,7 @@ from app.services.favoritos_service import FavoritoService
 from app.models.avaliacao import Avaliacao
 from app.services.avaliacoes_service import AvaliacoesService
 from app.models.place import Place
+from app.services.recommendation_service import RecommendationService
 
 main = Blueprint("main", __name__)
 
@@ -123,3 +124,13 @@ def criar_avaliacao_user():
         return jsonify({"message":"Avaliação criada"}), 201
     
     return jsonify({"message":"já avliou"}), 400
+
+
+# Recomendações
+
+@main.route("/grafico", methods=["GET"])
+def grafic_recomendacao():
+    
+    lista = RecommendationService.grafico()
+
+    return jsonify(lista), 200

@@ -2,6 +2,9 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
+import Plot from "react-plotly.js";
+import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
@@ -48,6 +51,10 @@ const destinos = [
 ];
 
 function HomePage() {
+  const { grafico, dados } = useAuth();
+  useEffect(() => { grafico() }, [])
+  useAuth
+
   const navigate = useNavigate();
   return (
     <div className="bg-surface text-on-surface min-h-screen">
@@ -100,7 +107,27 @@ function HomePage() {
             ))}
           </div>
         </section>
-
+        
+        {/* Gráfico */}
+        <section>
+          <div className="px-6 flex justify-between items-end mb-4">
+            <Plot
+              data={[
+                  {
+                      x: dados.map(d => d.categoria),
+                      y: dados.map(d => d.recomendacao),
+                      type: "bar"
+                  }
+              ]}
+              layout={{
+                  title: "Preferências turisticas",
+                  width: 400,
+                  height: 300
+              }}
+          />
+        </div>
+        </section>
+        
         {/* Destaques */}
         <section>
           <div className="px-6 flex justify-between items-end mb-6">
