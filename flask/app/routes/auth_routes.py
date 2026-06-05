@@ -7,6 +7,7 @@ from app.models.favorito import Favorito
 from app.services.favoritos_service import FavoritoService
 from app.models.avaliacao import Avaliacao
 from app.services.avaliacoes_service import AvaliacoesService
+from app.models.place import Place
 
 main = Blueprint("main", __name__)
 
@@ -44,6 +45,8 @@ def todos_pontos_turisticos():
         Place.to_dict(place)
         for place in places
     ])
+def lugar_selcionado(id_place):
+    Place.query.first()
 
 # Favoritos
 
@@ -91,7 +94,7 @@ def deletar_favorito(id_favorito):
     }), 200
 
 @main.route("/favoritos", methods=["GET"])
-@jwt_required()
+#@jwt_required()
 def listar_favoritos_routes():
 
     lista = FavoritoService.lista_favoritos()
@@ -120,7 +123,3 @@ def criar_avaliacao_user():
         return jsonify({"message":"Avaliação criada"}), 201
     
     return jsonify({"message":"já avliou"}), 400
-
-@main.route("/places", methods=["GET"])
-def lugares():
-    pass

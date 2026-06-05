@@ -13,22 +13,37 @@ type AuthContextType = {
   logout: () => void;
   register: (email: string, password: string, username: string) => void;
   get_all_places: PlaceType[];
-  busca_places: (token: string) => Promise<void>
+  busca_places: (token: string) => Promise<void>;
+  get_all_favorites_places: FavoritePlaceType[];
+  buscar_favorites_places: (token: string) => Promise<void>
 };
 
 export interface PlaceType {
-  id: string,
-  name: string,
-  city: string,
-  region: string,
-  category: string,
-  description: string,
-  latitude: string,
-  longitude: string,
-  image_url: string,
-  average_rating: string,
-  tags: string,
-  featured: string
+  id: number
+  name: string
+  city: string
+  region: string
+  category: string
+  description: string
+  latitude: number
+  longitude: number
+  image_url: string
+  average_rating: number
+  tags: string
+  featured: boolean
+}
+
+export interface UserType {
+  id: number
+  username: string
+  email: string
+  password: string
+}
+
+export interface FavoritePlaceType {
+  id: number
+  place: PlaceType
+  user: UserType
 }
 
 const host = import.meta.env.VITE_API_URL;
@@ -47,6 +62,7 @@ export function AuthProvider({
   const [isAuthenticated, setIsAuthenticated] =
     useState(false);
   const [get_all_places, setAll_Places] = useState<PlaceType[]>([])
+  const [get_all_favorites_places, setAll_favorites_places] = useState<FavoritePlaceType[]>([])
 
   useEffect(() => {
 
@@ -154,6 +170,32 @@ export function AuthProvider({
     }
   }
 
+  async function buscar_favorites_places(token: string){
+    try {
+      const response = await fetch(
+        `${host}/favoritos`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro)
+      }
+
+      setAll_favorites_places(data);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
     return (
       <AuthContext.Provider
         value={{
@@ -162,7 +204,9 @@ export function AuthProvider({
           logout,
           register,
           get_all_places,
-          busca_places
+          busca_places,
+          get_all_favorites_places,
+          buscar_favorites_places
         }}
       >
         {children}
