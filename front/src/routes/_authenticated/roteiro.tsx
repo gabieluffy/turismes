@@ -18,7 +18,7 @@ const stops = [
     title: "Convento da Penha",
     desc: "Inicie o dia com a vista panorâmica mais icônica do Espírito Santo no topo do penhasco.",
     next: "25 min até a próxima parada (12km)",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuALO0zJA0pnt_0cNln21v5Fr3ecqWKAJn9DpVXkFRNW40qL1YWgNTNj2T-sK7aU4JBoooPPLwIrY11u5-9erwi_UDnJ6hiZmwdxWojltsjGflk_7b9HxUDzDCtPMl8kuwdM_OWHDamcILxY5mPF62qwF_E-9oBJkY757dxEwbTVxR_z1oks0Tue1WuVLY_JliMpmKl4GwaGYIWRY2b6XMxq8XpViezR1940wlcz7oge1vXlqW4iM8lHckB2zitqA5w_T1dpY-5em4q_",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFzuDkpDPkKAkEjMjMBG45K5Jk-7_4VE6zP_dDGSMMpA9scKbtuQanB1yiYZtB4L9HZBpzih97GKb1f5f4XiBjZVuMmsDPB_US0IXxhfXNQKvIaLBsNYmSroCXJXQBkl17kalxM5w=w270-h312-n-k-no",
   },
   {
     time: "12:30",
@@ -27,7 +27,7 @@ const stops = [
     title: "Ilha das Caieiras",
     desc: "Experiência gastronômica autêntica com a verdadeira Moqueca Capixaba à beira do manguezal.",
     next: "15 min até a próxima parada (6.5km)",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB95um0-MdfGutLrbo_0IEelwGjrTLAhBKhzyPMHJz7Cvb9N29yEOUJ6fi_NQBT7eyABFrQMPqjv4jrSTKAr0IiDIcpP_eui5-LFl8zHhKPqHUthmiFOKSXjpPo-LKwgSA7tQH419gRzS38T3cBmcTXhb8y-gECPJDumbnhnoHRklQFmdjMqWcGa8U7mdeStiV1yeLYmg-HiAT9VdRAfIcF7rzrz4Yioa0vSYxzNbSa_YJbFN56JNKSe-Fo3TZFtgLaN40aMpiM2GC-",
+    img: "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcR1bVkhCiGqELN6Wl5ImHWLDfh1YhDCAsSh3YI5JoptO6nSG1OAv7eNOcCTiWoa7KDefimaSFVSwTSXQeaMq-Ns7uU&s=19",
   },
   {
     time: "16:00",
@@ -36,7 +36,7 @@ const stops = [
     title: "Curva da Jurema",
     desc: "Relaxe nos quiosques modernos enquanto aprecia o pôr do sol entre Vitória e a Terceira Ponte.",
     next: null,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBMEeoLOOz4IYkVgj0DFpfuqvAcqLi6UaWXF4-oC3zu_DPH8UqOioEQl6tNAtjqcFftiXUxKCR36ILsXffIPykppvws3Clw-AoCvQoW9q6siqUTWY-fx-ocPv1SThCIFPgCvpKrrvQFxJBomfva02T0joOBmZRaZjpihj_ZrQ-6n5czEcydmzTdkQW66Cz87V9HAm1_pO484b6HDekz1ZT4510QlGyXABA_zN-H3SGT4qvIicQu2F3eS3j0FfTGVrADDBV8uP6gGHUI",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy5k-6SdUIfhCtqoAiq_K8DPL3uUkVFnUzMg&s",
   },
 ];
 

@@ -65,7 +65,7 @@ function HomePage() {
           <div className="relative w-full h-[460px] rounded-2xl overflow-hidden flex flex-col justify-end p-8 bg-surface-container-highest">
             <img
               className="absolute inset-0 w-full h-full object-cover"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB3NFMxr7qXROd3jd2X2S6oV6ax85V0OJWEqsbdpSG7UV7QgWq6d7gwF0PSPQhVXu2YqOBakQRZlVwXdG3i5rI3pV19qPVu6TpSsoCuXXOxOMY9FsRL6tU7jJs2D5SCnAUZ5aO2fHgdtyx6gtqEFLLrp7dWAJyUSf3McRecgyctGzjYypqKyhDmvYTlGKwXFOUaikskbJjgMTBpcHM8Q8ruqSai4hkrqz2ed4fD9AOO2r9ut8z4whcYpzlysOcWBBjKQbRUL2fSZHD"
+              src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFzuDkpDPkKAkEjMjMBG45K5Jk-7_4VE6zP_dDGSMMpA9scKbtuQanB1yiYZtB4L9HZBpzih97GKb1f5f4XiBjZVuMmsDPB_US0IXxhfXNQKvIaLBsNYmSroCXJXQBkl17kalxM5w=w270-h312-n-k-no"
               alt="Convento da Penha"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent" />
@@ -109,22 +109,49 @@ function HomePage() {
         </section>
         
         {/* Gráfico */}
-        <section>
-          <div className="px-6 flex justify-between items-end mb-4">
+        <section className="px-6 mb-10">
+          <div
+          className="
+            relative
+            w-full    
+            h-[460px]
+            rounded-2xl
+            overflow-hidden
+            flex
+            items-center
+            justify-center
+            bg-surface-container-highest
+          "
+        >
             <Plot
               data={[
-                  {
-                      x: dados.map(d => d.categoria),
-                      y: dados.map(d => d.recomendacao),
-                      type: "bar"
-                  }
+                {
+                  x: dados.map(d => d.categoria),
+                  y: dados.map(d => d.recomendacao),
+                  type: "bar",
+                },
               ]}
               layout={{
-                  title: "Preferências turisticas",
-                  width: 400,
-                  height: 300
+                title: "Preferências turísticas",
+                autosize: true,
+                dragmode: "pan",
+                margin: {
+                  l: 50,
+                  r: 20,
+                  t: 60,
+                  b: 50,
+                },
               }}
-          />
+              useResizeHandler={true}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+              config={{
+                scrollZoom: true,
+                displayModeBar: false
+              }}
+            />
         </div>
         </section>
         

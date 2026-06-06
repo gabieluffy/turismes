@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required
 from ..auth import create_user, authenticate_user
 from app.models.place import Place
 from  app.models.user import User
+from app.models.persona import Persona
 from app.models.favorito import Favorito
 from app.services.favoritos_service import FavoritoService
 from app.models.avaliacao import Avaliacao
@@ -134,3 +135,22 @@ def grafic_recomendacao():
     lista = RecommendationService.grafico()
 
     return jsonify(lista), 200
+
+@main.route("/roteiro", methods=["POST"])
+def criar_roteiro():
+
+    data = request.get_json()
+
+    user = User.query.get(data["user_id"])
+    persona = Persona.query.get(user.persona_id)
+
+    user_lat = data["user_lat"]
+    user_lon = data["user_lon"]
+
+    roteiro = RecommendationService.generate_route(
+        persona,
+        user_lon,
+        user_lat
+    )
+
+    return jsonify(roteiro), 200

@@ -20,6 +20,11 @@ class Place(db.Model):
     longitude = db.Column(db.Float)
 
     average_rating = db.Column(db.Float, default=0)
+    
+    estimated_visit_minutes = db.Column(
+        db.Integer,
+        default=60
+    )
 
     tags = db.Column(db.String(500))
 
