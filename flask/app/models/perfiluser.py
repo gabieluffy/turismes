@@ -1,12 +1,13 @@
 from app.extensions import db
 
 class UserPreference(db.Model):
-    __tablename__ = "userpreference"
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = "user_preference"
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    categoria_id = db.Column(db.Integer, db.ForeignKey("categoria.id"))
+    pontuacao = db.Column(db.Integer, nullable=False)
 
-    user_id = db.Column(db.Integer)
-
-    likes_beach = db.Column(db.Boolean)
-    likes_mountains = db.Column(db.Boolean)
-    likes_food = db.Column(db.Boolean)
-    likes_history = db.Column(db.Boolean)
+    # Relacionamento com a tabela User
+    usuario = db.relationship("User", backref="user_preference")
+    categoria = db.relationship("Categoria", backref="user_preference")

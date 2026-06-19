@@ -4,13 +4,17 @@ class Categoria(db.Model):
     __tablename__ = "categoria"
     id = db.Column(db.Integer, primary_key=True)
 
-    name = db.Column(db.String(50), nullable=False)
+    nome = db.Column(db.String(50), nullable=False)
+    codigo = db.Column(db.String(100))
+    icone = db.Column(db.String(100))
+    cor = db.Column(db.String(50))
+    descricao = db.Column(db.Text)
 
-    id_palce = db.Column(
-        db.Integer,
-        db.ForeignKey("place.id"),
-        nullable=False
-    )
-
-    palce = db.relationship("Place", backref="categoria")
-
+    def to_dict(self):
+        return {
+            "nome": self.nome,
+            "codeigo": self.codigo,
+            "icone": self.icone,
+            "cor": self.cor,
+            "descricao": self.descricao
+        }

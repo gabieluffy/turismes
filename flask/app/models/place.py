@@ -2,7 +2,7 @@ from app.extensions import db
 
 class Place(db.Model):
     __tablename__ = "place"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     name = db.Column(db.String(200), nullable=False)
 
@@ -30,6 +30,9 @@ class Place(db.Model):
 
     featured = db.Column(db.Boolean, default=False)
 
+    cidade_id = db.Column(db.Integer, db.ForeignKey("cidade.id"))
+
+    cidade = db.relationship("Cidade", backref="place")
 
     def to_dict(self):
 
@@ -45,5 +48,6 @@ class Place(db.Model):
             "image_url": self.image_url,
             "average_rating": self.average_rating,
             "tags": self.tags,
-            "featured": self.featured
+            "featured": self.featured,
+            "cidade_id": self.cidade_id
         }

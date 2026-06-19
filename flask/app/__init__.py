@@ -7,6 +7,10 @@ from .models.avaliacao import Avaliacao
 from .models.categoria import Categoria
 from .models.cidade import Cidade
 from .models.favorito import Favorito
+from app.models.alternativa import Alternativa
+from app.models.pergunta import Pergunta
+from app.models.place_categoria import PlaceCategoria
+from app.models.perfiluser import UserPreference
 from app.routes.auth_routes import main
 from config import Config
 from .seed import seed_database
