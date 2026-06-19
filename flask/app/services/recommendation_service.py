@@ -1,5 +1,7 @@
 from app.models.place import Place
 from app.models.persona import Persona
+from app.models.place_categoria import PlaceCategoria
+from app.models.categoria import Categoria
 from datetime import datetime, timedelta
 from haversine import haversine
 from app.models.route import Route
@@ -18,16 +20,56 @@ class RecommendationService:
         * a classificação está acima da média + 5 pts 
         """
         score = 0
-            
-        if persona.likes_beach:
-            score += 10
 
-        if place.category == "Praia":
-            score += 10
+        categorias = {
+            categoria.nome.lower()
+            for categoria in place.categorias
+        }
+
+        if persona.likes_mountains and "montanha" in categorias:
+            score += 20
+
+        if persona.likes_beach and "praia" in categorias:
+            score += 20
+
+        if persona.likes_food and "gastronomia" in categorias:
+            score += 20
+
+        if persona.likes_history and "historia" in categorias:
+            score += 20
+
+        if persona.likes_nature and "natureza" in categorias:
+            score += 20
 
         if place.average_rating >= 4.5:
             score += 5
+
         return score
+        
+    @staticmethod
+    def is_compatible(persona, place):
+
+        categorias = {
+            categoria.nome.lower()
+            for categoria in place.categorias
+        }
+
+        if persona.likes_beach and "praia" in categorias:
+            return True
+
+        if persona.likes_mountains and "montanha" in categorias:
+            return True
+
+        if persona.likes_food and "gastronomia" in categorias:
+            return True
+
+        if persona.likes_history and "historia" in categorias:
+            return True
+
+        if persona.likes_nature and "natureza" in categorias:
+            return True
+
+        return False
 
     def calculate_distance(lat1, lon1, lat2, lon2):
         """
@@ -55,28 +97,32 @@ class RecommendationService:
     @staticmethod
     def get_icon(place):
 
-        category = (place.category or "").lower()
+        categorias = {
+            categoria.nome.lower()
+            for categoria in place.categorias
+        }
 
-        if "praia" in category:
+        if "praia" in categorias:
             return "beach_access"
 
-        if "igreja" in category:
-            return "church"
+        if "montanha" in categorias:
+            return "terrain"
 
-        if "restaurante" in category:
+        if "gastronomia" in categorias:
             return "restaurant"
 
-        if "parque" in category:
-            return "park"
+        if "historia" in categorias:
+            return "museum"
 
-        if "montanha" in category:
-            return "terrain"
+        if "natureza" in categorias:
+            return "park"
 
         return "place"
 
     @staticmethod
     def generate_route(persona, user_lon: float, user_lat: float):
-        """ # Gerar roteiro Essa função constroi rotas para a persona solicitante  
+        """ # Gerar roteiro  
+        Essa função constroi rotas para a persona solicitante  
         ## Algoritmo: 
         * Buscar todos os locais. 
         * Pontuar os gostos da persona. 
@@ -86,12 +132,16 @@ class RecommendationService:
         * Ordenar para visita (Começando na localização atual). 
         """
         places = Place.query.all()
+        
 
         candidates = []
 
         # Seleciona e pontua candidatos
         for place in places:
-
+            
+            if not RecommendationService.is_compatible(persona, place):
+                continue
+            
             score = RecommendationService.calculate_score(
                 persona,
                 place
@@ -171,23 +221,22 @@ class RecommendationService:
                     next_place.latitude,
                     next_place.longitude
                 )
+                next_info = f"{next_distance:.1f} km até a próxima parada"
 
-                # velocidade média simulada
-                estimated_minutes = round((next_distance / 40) * 60)
 
-                next_info = (
-                    f"{estimated_minutes} min até a próxima parada "
-                    f"({next_distance:.1f} km)"
-                )
 
             response.append({
-                "time": current_time.strftime("%H:%M"),
+                #"time": current_time.strftime("%H:%M"),
                 "badge": f"Parada {i + 1:02}",
                 "icon": RecommendationService.get_icon(place),
                 "title": place.name,
                 "desc": place.description,
                 "next": next_info,
-                "img": place.image_url
+                "img": place.image_url,
+                "cat": [
+                    categoria.nome
+                    for categoria in place.categorias
+                ]
             })
 
             # tempo estimado de visita
@@ -261,12 +310,14 @@ class RecommendationService:
             resultado = db.session.execute(
                 text("""
                 SELECT 
-                    categoria."name" AS categoria, 
-                    COUNT(place.id) AS recomendacao
-                FROM categoria 
-                INNER JOIN place   
-                    ON categoria.id_palce = place.id
-                GROUP BY categoria.name;
+                    c.nome AS categoria, 
+                    COUNT(p.id) AS recomendacao
+                FROM categoria c 
+                INNER JOIN place_categoria pc    
+                    ON c.id = pc.categoria_id 
+                INNER JOIN place p    
+                    ON p.id = pc.place_id  
+                GROUP BY c.nome ;
                 """)
             ).mappings()
 

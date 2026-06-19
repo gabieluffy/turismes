@@ -16,7 +16,7 @@ class Persona(db.Model):
 
     likes_nature = db.Column(db.Boolean)
 
-    persona_id = db.Column(
+    user_id = db.Column(
         db.Integer,
         db.ForeignKey("user.id")
     )

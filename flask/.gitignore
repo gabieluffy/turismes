@@ -5,3 +5,4 @@ __pycache__/
 instance/**
 .env
 venv/**
+test/__pycache__/

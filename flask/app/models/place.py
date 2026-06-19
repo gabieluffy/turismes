@@ -10,8 +10,6 @@ class Place(db.Model):
 
     region = db.Column(db.String(100))
 
-    category = db.Column(db.String(100))
-
     description = db.Column(db.Text)
 
     image_url = db.Column(db.String(500))
@@ -33,6 +31,12 @@ class Place(db.Model):
     cidade_id = db.Column(db.Integer, db.ForeignKey("cidade.id"))
 
     cidade = db.relationship("Cidade", backref="place")
+    
+    categorias = db.relationship(
+        "Categoria",
+        secondary="place_categoria",
+        lazy="joined"
+    )
 
     def to_dict(self):
 

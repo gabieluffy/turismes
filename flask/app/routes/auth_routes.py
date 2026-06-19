@@ -10,6 +10,7 @@ from app.models.avaliacao import Avaliacao
 from app.services.avaliacoes_service import AvaliacoesService
 from app.models.place import Place
 from app.services.recommendation_service import RecommendationService
+from app.extensions import db
 
 main = Blueprint("main", __name__)
 
@@ -141,8 +142,10 @@ def criar_roteiro():
 
     data = request.get_json()
 
-    user = User.query.get(data["user_id"])
-    persona = Persona.query.get(user.persona_id)
+    persona = db.session.get(
+        Persona,
+        data["user_id"]
+    )
 
     user_lat = data["user_lat"]
     user_lon = data["user_lon"]
