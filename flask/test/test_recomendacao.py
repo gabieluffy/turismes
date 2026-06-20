@@ -10,30 +10,6 @@ app = create_app()
 
 
 
-
-
-
-
-res_grafico = [
-  {'categoria': 'PRAIA', 'recomendacao': 3},
-  {'categoria': 'MONTANHA', 'recomendacao': 4},
-  {'categoria': 'FAMILIA', 'recomendacao': 4},
-  {'categoria': 'HISTORIA', 'recomendacao': 4},
-  {'categoria': 'ECOTURISMO', 'recomendacao': 1},
-  {'categoria': 'GASTRONOMIA', 'recomendacao': 1}
-]
-
-def test_grafico():
-
-    with app.app_context():
-
-        resultado = RecommendationService.grafico()
-
-        assert resultado == res_grafico
-
-
-
-
 def test_generate_route_only_beaches():
 
     with app.app_context():

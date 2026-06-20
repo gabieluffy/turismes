@@ -300,25 +300,4 @@ class RecommendationService:
 
             return recommendations[:10]
         
-    @staticmethod
-    def grafico():
-            """ 
-            ## Dados para gráfico
-            Esse gráfico mostra o total de recomendaçõees feitas pós quiz para a persona
-            """
-            
-            resultado = db.session.execute(
-                text("""
-                SELECT 
-                    c.nome AS categoria, 
-                    COUNT(p.id) AS recomendacao
-                FROM categoria c 
-                INNER JOIN place_categoria pc    
-                    ON c.id = pc.categoria_id 
-                INNER JOIN place p    
-                    ON p.id = pc.place_id  
-                GROUP BY c.nome ;
-                """)
-            ).mappings()
-
-            return [dict(row) for row in resultado]
+    

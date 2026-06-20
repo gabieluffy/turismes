@@ -12,14 +12,20 @@ from app.models.pergunta import Pergunta
 from app.models.place_categoria import PlaceCategoria
 from app.models.perfiluser import UserPreference
 from app.routes.auth_routes import main
-from config import Config
+from app.routes.grafics_routes import grafic
+from app.routes.recommendation_routes import recommendation_bp
+from config import Config, ConfigTeste
 from .seed import seed_database
 from sqlalchemy.exc import OperationalError
 
 
-def create_app():
+def create_app(testing=False):
     app = Flask(__name__)
     app.config.from_object(Config)
+    
+    if testing:
+        app.config.from_object(ConfigTeste)
+    
     
     cors(app)
     
@@ -32,6 +38,8 @@ def create_app():
     bcrypt.init_app(app)
 
     app.register_blueprint(main)
+    app.register_blueprint(grafic)
+    app.register_blueprint(recommendation_bp)
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -48,5 +56,5 @@ def create_app():
         except OperationalError as e:
             print("Erro ao conectar ao banco:")
             print(e)
-
+    print("CONFIGURAÇÃO MINHA: ", app.config["SQLALCHEMY_DATABASE_URI"])
     return app
