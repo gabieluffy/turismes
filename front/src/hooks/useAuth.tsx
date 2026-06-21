@@ -16,8 +16,12 @@ type AuthContextType = {
   busca_places: (token: string) => Promise<void>;
   get_all_favorites_places: FavoritePlaceType[];
   buscar_favorites_places: (token: string) => Promise<void>;
-  dados: any[];
-  grafico: () => Promise<void>
+  grafico_fvoritos(): Promise<void>;
+  graf_favorites: {categoria: any;favoritos: any;}[];
+  graf_local_municipio: {cidade: string;locais: number;}[];
+  grafico_local_municipio(): Promise<void>;
+  graf_categorias: {categoria: string;quantidade: number;}[]
+  grafico_categorias(): Promise<void>;
 };
 
 export interface PlaceType {
@@ -48,6 +52,12 @@ export interface FavoritePlaceType {
   user: UserType
 }
 
+export interface GraficFavorites
+  {
+      categoria: any;
+      favoritos: any;
+  }
+
 const host = import.meta.env.VITE_API_URL;
 
 const AuthContext =
@@ -65,7 +75,10 @@ export function AuthProvider({
     useState(false);
   const [get_all_places, setAll_Places] = useState<PlaceType[]>([])
   const [get_all_favorites_places, setAll_favorites_places] = useState<FavoritePlaceType[]>([])
-  const [dados, setDados] = useState<any[]>([]);
+  const [graf_favorites, setGraf_favorites] = useState<{categoria: any;favoritos: any;}[]>([])
+  const [graf_local_municipio, setGraf_local_municipio] = useState<{cidade: string;locais: number;}[]>([])
+  const [graf_categorias, setGraf_categorias] = useState<{categoria: string;quantidade: number;}[]>([])
+
 
   useEffect(() => {
 
@@ -199,13 +212,81 @@ export function AuthProvider({
     }
   }
 
-  async function grafico() {
+  async function grafico_fvoritos() {
+    try { 
+      
+      const response = await fetch(
+        `${host}/grafico_favoritos_categoria`,
+        {method: "GET"}
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+      
+      const grafic: {categoria: any;favoritos: any;}[] = data.map((i: any) => ({
+        categoria: i.categoria,
+        favoritos: i.favoritos
+      }))
+
+      setGraf_favorites(grafic)
+
+    } catch ( error) {
+      console.error( error)
+    }
+  }
+
+  async function grafico_local_municipio() {
     try {
-      fetch(`${host}/grafico`)
-            .then(res => res.json())
-            .then(data => setDados(data));
-    } catch (error) {
-      console.error(error)
+      
+      const response = await fetch(
+        `${host}/grafico_municipios`,
+        {method: "GET"}
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+      
+      const grafic: {cidade: string;locais: number;}[] = data.map((i: any) => ({
+        cidade: i.cidade,
+        locais: i.locais
+      }))
+
+      setGraf_local_municipio(grafic)
+
+    } catch ( error) {
+      console.error( error)
+    }
+  }
+
+  async function grafico_categorias() {
+    try {
+      
+      const response = await fetch(
+        `${host}/grafico_categorias`,
+        {method: "GET"}
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+      
+      const grafic: {categoria: string;quantidade: number;}[] = data.map((i: any) => ({
+        categoria: i.categoria,
+        quantidade: i.quantidade
+      }))
+
+      setGraf_categorias(grafic)
+
+    } catch ( error) {
+      console.error( error)
     }
   }
 
@@ -220,8 +301,12 @@ export function AuthProvider({
           busca_places,
           get_all_favorites_places,
           buscar_favorites_places,
-          dados,
-          grafico
+          grafico_fvoritos,
+          graf_favorites,
+          grafico_local_municipio,
+          graf_local_municipio,
+          grafico_categorias,
+          graf_categorias
         }}
       >
         {children}

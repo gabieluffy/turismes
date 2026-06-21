@@ -11,11 +11,11 @@ export const Route = createFileRoute("/_authenticated/perfil")({
   component: PerfilPage,
 });
 
-const options = [
-  { icon: "person_edit", label: "Editar Dados", color: "text-primary" },
+const options: { icon: string; label: string; color: string; to?: string }[] = [  { icon: "person_edit", label: "Editar Dados", color: "text-primary" },
   { icon: "landscape", label: "Preferências Turísticas", color: "text-secondary" },
   { icon: "history_edu", label: "Histórico de Quizzes", color: "text-tertiary" },
   { icon: "tune", label: "Configurações", color: "text-on-surface-variant" },
+  { icon: "monitoring", label: "Gráficos", color: "text-primary", to: "/graficos" },
 ];
 
 function PerfilPage() {
@@ -75,6 +75,7 @@ function PerfilPage() {
           {options.map((o) => (
             <button
               key={o.label}
+              onClick={() => o.to && navigate({ to: o.to })}
               className="w-full flex items-center justify-between p-4 bg-surface-container-low hover:bg-surface-container-high transition-colors rounded-2xl group"
             >
               <div className="flex items-center gap-4">

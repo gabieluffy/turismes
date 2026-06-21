@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
-import Plot from "react-plotly.js";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 
@@ -51,9 +50,6 @@ const destinos = [
 ];
 
 function HomePage() {
-  const { grafico, dados } = useAuth();
-  useEffect(() => { grafico() }, [])
-  useAuth
 
   const navigate = useNavigate();
   return (
@@ -108,52 +104,6 @@ function HomePage() {
           </div>
         </section>
         
-        {/* Gráfico */}
-        <section className="px-6 mb-10">
-          <div
-          className="
-            relative
-            w-full    
-            h-[460px]
-            rounded-2xl
-            overflow-hidden
-            flex
-            items-center
-            justify-center
-            bg-surface-container-highest
-          "
-        >
-            <Plot
-              data={[
-                {
-                  x: dados.map(d => d.categoria),
-                  y: dados.map(d => d.recomendacao),
-                  type: "bar",
-                },
-              ]}
-              layout={{
-                title: "Preferências turísticas",
-                autosize: true,
-                dragmode: "pan",
-                margin: {
-                  l: 50,
-                  r: 20,
-                  t: 60,
-                  b: 50,
-                },
-              }}
-              useResizeHandler={true}
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-              config={{
-                scrollZoom: true,
-                displayModeBar: false
-              }}
-            />
-        </div>
-        </section>
         
         {/* Destaques */}
         <section>

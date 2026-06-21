@@ -45,7 +45,6 @@ class Place(db.Model):
             "name": self.name,
             "city": self.city,
             "region": self.region,
-            "category": self.category,
             "description": self.description,
             "latitude": self.latitude,
             "longitude": self.longitude,

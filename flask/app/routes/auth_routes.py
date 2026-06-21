@@ -39,7 +39,7 @@ def login():
 
 
 @main.route("/todos_pontos_turisticos",methods=["GET"])
-@jwt_required()
+#@jwt_required()
 def todos_pontos_turisticos():
 
     places = Place.query.all()
@@ -129,13 +129,6 @@ def criar_avaliacao_user():
 
 
 # Recomendações
-
-@main.route("/grafico", methods=["GET"])
-def grafic_recomendacao():
-    
-    lista = RecommendationService.grafico()
-
-    return jsonify(lista), 200
 
 @main.route("/roteiro", methods=["POST"])
 def criar_roteiro():

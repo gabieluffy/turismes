@@ -6,13 +6,11 @@ from app.models.persona import Persona
 from app.models.categoria import Categoria
 from app.models.place import Place
 
-app = create_app()
 
 
 
-def test_generate_route_only_beaches():
 
-    with app.app_context():
+def test_generate_route_only_beaches(app): 
 
         persona = Persona(
             likes_beach=True,
@@ -39,7 +37,7 @@ def test_generate_route_only_beaches():
 
 def test_route_structure(app):
 
-    with app.app_context():
+    
 
         persona = Persona.query.first()
 
@@ -61,7 +59,7 @@ def test_route_structure(app):
 
 def test_route_respects_persona_preferences(app):
 
-    with app.app_context():
+    
 
         persona = Persona(
             likes_beach=True,

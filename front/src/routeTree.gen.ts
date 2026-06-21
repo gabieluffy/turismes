@@ -19,6 +19,7 @@ import { Route as AuthenticatedQuizRouteImport } from './routes/_authenticated/q
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedMapaRouteImport } from './routes/_authenticated/mapa'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated/graficos'
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -70,6 +71,11 @@ const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedGraficosRoute = AuthenticatedGraficosRouteImport.update({
+  id: '/graficos',
+  path: '/graficos',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
   id: '/favoritos',
   path: '/favoritos',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
+  '/graficos': typeof AuthenticatedGraficosRoute
   '/home': typeof AuthenticatedHomeRoute
   '/mapa': typeof AuthenticatedMapaRoute
   '/perfil': typeof AuthenticatedPerfilRoute
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
+  '/graficos': typeof AuthenticatedGraficosRoute
   '/home': typeof AuthenticatedHomeRoute
   '/mapa': typeof AuthenticatedMapaRoute
   '/perfil': typeof AuthenticatedPerfilRoute
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
+  '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/mapa': typeof AuthenticatedMapaRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/favoritos'
+    | '/graficos'
     | '/home'
     | '/mapa'
     | '/perfil'
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/favoritos'
+    | '/graficos'
     | '/home'
     | '/mapa'
     | '/perfil'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/_authenticated/favoritos'
+    | '/_authenticated/graficos'
     | '/_authenticated/home'
     | '/_authenticated/mapa'
     | '/_authenticated/perfil'
@@ -232,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHomeRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/graficos': {
+      id: '/_authenticated/graficos'
+      path: '/graficos'
+      fullPath: '/graficos'
+      preLoaderRoute: typeof AuthenticatedGraficosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/favoritos': {
       id: '/_authenticated/favoritos'
       path: '/favoritos'
@@ -244,6 +263,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
+  AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedMapaRoute: typeof AuthenticatedMapaRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
@@ -255,6 +275,7 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
+  AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedMapaRoute: AuthenticatedMapaRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,

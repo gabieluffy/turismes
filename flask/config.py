@@ -9,4 +9,4 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class ConfigTeste:
-    SQLALCHEMY_DATABASE_URI_TESTE = os.getenv("DATABASE_URL_TESTE")            
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL_TESTE")            
