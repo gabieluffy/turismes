@@ -301,3 +301,48 @@ class RecommendationService:
             return recommendations[:10]
         
     
+
+
+
+    @staticmethod
+    def listar_destinos_destaque(categoria=None):
+
+        query = """
+            SELECT
+                p.id,
+                p.name,
+                p.image_url,
+                c.cidade AS cidade,
+                cat.nome AS categoria,
+                p.average_rating,
+                p.slug,
+                p.description 
+            FROM turismes.place p
+            LEFT JOIN turismes.cidade c
+                ON c.cidade = p.city
+            LEFT JOIN turismes.place_categoria pc
+                ON pc.place_id = p.id
+            LEFT JOIN turismes.categoria cat
+                ON cat.id = pc.categoria_id
+            WHERE pc.categoria_principal = TRUE
+        """
+
+        params = {}
+
+        if categoria:
+            query += """
+                AND cat.id =:categoria
+            """
+            params["categoria"] = categoria
+
+        query += """
+            ORDER BY average_rating DESC
+            LIMIT 10
+        """
+
+        resultado = db.session.execute(
+            text(query),
+            params
+        ).mappings()
+
+        return [dict(row) for row in resultado]

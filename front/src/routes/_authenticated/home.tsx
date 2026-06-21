@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
@@ -19,37 +19,26 @@ export const Route = createFileRoute("/_authenticated/home")({
 });
 
 const categories = [
-  { icon: "terrain", label: "Montanhas", bg: "bg-secondary-container", fg: "text-on-secondary-container" },
-  { icon: "beach_access", label: "Praias", bg: "bg-primary-container", fg: "text-on-primary-container" },
-  { icon: "restaurant", label: "Gastronomia", bg: "bg-tertiary-container", fg: "text-on-tertiary-container" },
-  { icon: "account_balance", label: "História", bg: "bg-surface-variant", fg: "text-on-surface-variant" },
+  { icon: "terrain", label: "Montanhas", bg: "bg-secondary-container", fg: "text-on-secondary-container", id:2 },
+  { icon: "beach_access", label: "Praias", bg: "bg-primary-container", fg: "text-on-primary-container", id:3 },
+  { icon: "restaurant", label: "Gastronomia", bg: "bg-tertiary-container", fg: "text-on-tertiary-container", id:4 },
+  { icon: "account_balance", label: "História", bg: "bg-surface-variant", fg: "text-on-surface-variant", id:1 },
 ];
 
-const destinos = [
-  {
-    name: "Pedra Azul",
-    location: "Domingos Martins, ES",
-    tag: "Montanha",
-    rating: 4.9,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDqdzTD92SBTft3cxociHXJiZScrj6dxV1QNinv5GdS4kvjaOzPxYXPEuPbFsy6gTCpg6J5eoAGCPohd0vX07xzZzVcWoQd7fWRY9bBt4ehNcU-eCK_KhmuF_OFTntTxK2H0isTAltgbRgTaqOsLK3dRSzHvA8HgxZXY91HQMrWw_9nPhTj1X8e-F1L06F7pF28avOSMNKeS8FWhWxmAwnJVjpRyHTudQGYI0jN8lOHD0_tyXn431ddSs9qBdab76KOibx8eB7IlFb6",
-  },
-  {
-    name: "Guarapari",
-    location: "Litoral Sul, ES",
-    tag: "Praia",
-    rating: 4.7,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBE3SS84GAJYnYdSPkeq1DLLkM7swPmw3Ir0a_H3ln7Dz0ya_1UZafs5o9STPh4BpH0IWGctrRWFbtb0OeAq8Id8dJ7y5kCu8qeBIV0OGizMbsVHOKQDBOKpmeK3isHufJAgs56ZMqIx0FdZStfSOou_xZT-In0e4n0jJByK0xkU0UbA-JB7ppcBBrhnb6LajDQiuLI9bTgQ2cPuyZsVE6loHmSiILUyNHd-FXC1oRBqBztMJx_qniFSPiFV4JdnznABuKdwI8T4pvm",
-  },
-  {
-    name: "Domingos Martins",
-    location: "Região Serrana, ES",
-    tag: "Cultura",
-    rating: 4.8,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCZcUPhqU8ZC_TbUmDtx5VD39maI2RIKbJy7FO1Z-pE2gVkMy9EwACEiBtVmkuMPD_dsvnygE2xdq-mDRtQ0_Jq-AT_H4NkTVQlyA4CEau396Eo61ITv78Xb4Zgjq9YtzuFtXccTcsE5vxIsDPvZhYMroFimsI0rNXQHF5J28slmByY9xUzw1pXjGp900MwKyoQvb6wtX_WMsoh-jR2k33mdz5oMLkR0oqOicpAEjn8Vy3S0mEFfR7eFmH8_BfDtCL8pBZOD8nVhX5P",
-  },
-];
+
 
 function HomePage() {
+
+  const {
+    destinos,
+    carregarDestinos,
+    categoriaSelecionada,
+    setCategoriaSelecionada
+  } = useAuth();
+
+  useEffect(() => {
+    carregarDestinos();
+  }, []);
 
   const navigate = useNavigate();
   return (
@@ -92,14 +81,28 @@ function HomePage() {
           </div>
           <div className="flex gap-4 overflow-x-auto px-6 hide-scrollbar">
             {categories.map((c) => (
-              <div key={c.label} className="flex-shrink-0 flex flex-col items-center gap-2">
+              <button
+                key={c.label}
+                onClick={() => {
+
+                  const novaCategoria =
+                    categoriaSelecionada === c.id
+                      ? null
+                      : c.id;
+
+                  setCategoriaSelecionada(novaCategoria);
+
+                  carregarDestinos(novaCategoria ?? undefined);
+                }}
+                className="flex-shrink-0 flex flex-col items-center gap-2"
+              >
                 <div className={`w-16 h-16 rounded-full ${c.bg} ${c.fg} flex items-center justify-center`}>
                   <Icon name={c.icon} className="text-3xl" style={{ fontSize: 30 }} />
                 </div>
                 <span className="text-xs font-bold uppercase tracking-widest">
                   {c.label}
                 </span>
-              </div>
+              </button>
             ))}
           </div>
         </section>
@@ -112,29 +115,35 @@ function HomePage() {
               <h2 className="text-2xl font-bold tracking-tight">Destinos em Destaque</h2>
               <p className="text-on-surface-variant text-sm">Os favoritos da temporada</p>
             </div>
-            <button className="text-primary font-bold text-sm">Ver todos</button>
+            <Link to="/destinos" className="text-primary font-bold text-sm">Ver todos</Link>
           </div>
           <div className="flex gap-6 overflow-x-auto px-6 hide-scrollbar pb-4">
             {destinos.map((d) => (
-              <div key={d.name} className="flex-shrink-0 w-72 bg-surface-container-lowest rounded-2xl overflow-hidden flex flex-col shadow-sm">
+              <div key={d.id} className="flex-shrink-0 w-72 bg-surface-container-lowest rounded-2xl overflow-hidden flex flex-col shadow-sm">
                 <div className="relative h-48">
-                  <img className="w-full h-full object-cover" src={d.img} alt={d.name} />
+                  <img className="w-full h-full object-cover" src={d.image_url} alt={d.name} />
                   <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-white text-[10px] font-bold uppercase tracking-widest">
-                    {d.tag}
+                    {d.categoria}
                   </div>
                 </div>
                 <div className="p-5">
                   <h3 className="text-xl font-bold mb-1">{d.name}</h3>
                   <div className="flex items-center gap-1 text-on-surface-variant text-sm mb-3">
                     <Icon name="location_on" style={{ fontSize: 16 }} />
-                    {d.location}
+                    {d.cidade}, ES
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-secondary font-bold flex items-center gap-1">
                       <Icon name="star" filled style={{ fontSize: 16 }} />
-                      {d.rating}
+                      {d.average_rating}
                     </span>
-                    <span className="text-primary font-bold">Explorar</span>
+                      <Link
+                        to="/destino/$nome"
+                        params={{ nome: d.slug }}
+                        className="text-primary font-bold active:scale-95 transition-transform"
+                      >
+                        Explorar
+                      </Link>
                   </div>
                 </div>
               </div>

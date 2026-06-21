@@ -1,4 +1,6 @@
+import { Usuario } from "@/hooks/useAuth";
 const TOKEN_KEY = "token";
+const INFO_USER = "user_id"
 
 function isBrowser() {
   return typeof window !== "undefined";
@@ -41,4 +43,22 @@ export const auth = {
 
     return !!localStorage.getItem(TOKEN_KEY);
   },
+
+  setInfoUser(usuario: Usuario) {
+    localStorage.setItem(
+      INFO_USER,
+      JSON.stringify(usuario)
+    );
+  },
+    
+  getInfoUser(): Usuario | null {
+
+    const value = localStorage.getItem(INFO_USER);
+
+    if (!value) {
+      return null;
+    }
+
+    return JSON.parse(value);
+  }
 };

@@ -3,6 +3,8 @@ import {
   useContext,
   useEffect,
   useState,
+  Dispatch, 
+  SetStateAction
 } from "react";
 
 import { auth } from "@/lib/auth";
@@ -22,6 +24,14 @@ type AuthContextType = {
   grafico_local_municipio(): Promise<void>;
   graf_categorias: {categoria: string;quantidade: number;}[]
   grafico_categorias(): Promise<void>;
+  carregarDestinos(categoria?: number): Promise<void>;
+  destinos: Destino[];
+  setCategoriaSelecionada: Dispatch<SetStateAction<number | null>>;
+  categoriaSelecionada: number | null;
+  adicionarFavorito: (id_user: number, id_place: number ) => Promise<void>;
+  removerFavorito: ( id_user: number, id_place: number ) => Promise<void>;
+  toggleFavorito( id_place: number, favorito: boolean ): Promise<void>;
+  usuario: Usuario | null;
 };
 
 export interface PlaceType {
@@ -58,6 +68,24 @@ export interface GraficFavorites
       favoritos: any;
   }
 
+export interface Usuario {
+  id: number,
+  email: string,
+  username: string
+}
+  
+
+export interface Destino {
+  id: number;
+  name: string;
+  cidade: string;
+  image_url: string;
+  categoria: string;
+  average_rating: number;
+  slug: string;
+  description: string;
+}
+
 const host = import.meta.env.VITE_API_URL;
 
 const AuthContext =
@@ -78,7 +106,9 @@ export function AuthProvider({
   const [graf_favorites, setGraf_favorites] = useState<{categoria: any;favoritos: any;}[]>([])
   const [graf_local_municipio, setGraf_local_municipio] = useState<{cidade: string;locais: number;}[]>([])
   const [graf_categorias, setGraf_categorias] = useState<{categoria: string;quantidade: number;}[]>([])
-
+  const [destinos, setDestinos] = useState<Destino[]>([]);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState<number | null>(null);
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
 
   useEffect(() => {
 
@@ -104,6 +134,7 @@ export function AuthProvider({
         }
 
         auth.setToken(data.token);
+        auth.setInfoUser(data.user)
   
       setIsAuthenticated(true);
 
@@ -289,6 +320,101 @@ export function AuthProvider({
       console.error( error)
     }
   }
+  
+  async function carregarDestinos(categoria?: number) {
+
+    let url = `${host}/destaques`;
+
+    if (categoria) {
+      url += `?categoria=${encodeURIComponent(categoria)}`;
+    }
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    setDestinos(data);
+  }
+  async function adicionarFavorito(
+    id_user: number,
+    id_place: number
+  ) {
+    try {
+      const response = await fetch(
+        `${host}/favorito`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id_user,
+            id_place,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Erro ao favoritar: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      console.log("Favorito criado:", data);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function removerFavorito(
+    id_user: number,
+    id_place: number
+  ) {
+    try {
+      const response = await fetch(
+        `${host}/favorito/${id_user}/${id_place}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Erro ao remover favorito: ${response.status}`
+        );
+      }
+
+      console.log("Favorito removido");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function toggleFavorito(
+    id_place: number,
+    favorito: boolean
+  ) {
+
+    if (!usuario) return;
+
+    if (favorito) {
+
+      await removerFavorito(
+        usuario.id,
+        id_place
+      );
+
+    } else {
+
+      await adicionarFavorito(
+        usuario.id,
+        id_place
+      );
+
+    }
+  }
 
     return (
       <AuthContext.Provider
@@ -306,7 +432,15 @@ export function AuthProvider({
           grafico_local_municipio,
           graf_local_municipio,
           grafico_categorias,
-          graf_categorias
+          graf_categorias,
+          carregarDestinos,
+          destinos,
+          setCategoriaSelecionada,
+          categoriaSelecionada,
+          adicionarFavorito,
+          removerFavorito,
+          toggleFavorito,
+          usuario
         }}
       >
         {children}

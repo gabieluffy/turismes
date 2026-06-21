@@ -21,6 +21,8 @@ import { Route as AuthenticatedMapaRouteImport } from './routes/_authenticated/m
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated/graficos'
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
+import { Route as AuthenticatedDestinosRouteImport } from './routes/_authenticated/destinos'
+import { Route as AuthenticatedDestinoNomeRouteImport } from './routes/_authenticated/destino.$nome'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -81,11 +83,23 @@ const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
   path: '/favoritos',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedDestinosRoute = AuthenticatedDestinosRouteImport.update({
+  id: '/destinos',
+  path: '/destinos',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDestinoNomeRoute =
+  AuthenticatedDestinoNomeRouteImport.update({
+    id: '/destino/$nome',
+    path: '/destino/$nome',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/destinos': typeof AuthenticatedDestinosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/graficos': typeof AuthenticatedGraficosRoute
   '/home': typeof AuthenticatedHomeRoute
@@ -94,10 +108,12 @@ export interface FileRoutesByFullPath {
   '/quiz': typeof AuthenticatedQuizRoute
   '/resultado': typeof AuthenticatedResultadoRoute
   '/roteiro': typeof AuthenticatedRoteiroRoute
+  '/destino/$nome': typeof AuthenticatedDestinoNomeRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/destinos': typeof AuthenticatedDestinosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/graficos': typeof AuthenticatedGraficosRoute
   '/home': typeof AuthenticatedHomeRoute
@@ -107,12 +123,14 @@ export interface FileRoutesByTo {
   '/resultado': typeof AuthenticatedResultadoRoute
   '/roteiro': typeof AuthenticatedRoteiroRoute
   '/': typeof AuthenticatedIndexRoute
+  '/destino/$nome': typeof AuthenticatedDestinoNomeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/_authenticated/destinos': typeof AuthenticatedDestinosRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
@@ -122,6 +140,7 @@ export interface FileRoutesById {
   '/_authenticated/resultado': typeof AuthenticatedResultadoRoute
   '/_authenticated/roteiro': typeof AuthenticatedRoteiroRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/destino/$nome': typeof AuthenticatedDestinoNomeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -129,6 +148,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/destinos'
     | '/favoritos'
     | '/graficos'
     | '/home'
@@ -137,10 +157,12 @@ export interface FileRouteTypes {
     | '/quiz'
     | '/resultado'
     | '/roteiro'
+    | '/destino/$nome'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/register'
+    | '/destinos'
     | '/favoritos'
     | '/graficos'
     | '/home'
@@ -150,11 +172,13 @@ export interface FileRouteTypes {
     | '/resultado'
     | '/roteiro'
     | '/'
+    | '/destino/$nome'
   id:
     | '__root__'
     | '/_authenticated'
     | '/login'
     | '/register'
+    | '/_authenticated/destinos'
     | '/_authenticated/favoritos'
     | '/_authenticated/graficos'
     | '/_authenticated/home'
@@ -164,6 +188,7 @@ export interface FileRouteTypes {
     | '/_authenticated/resultado'
     | '/_authenticated/roteiro'
     | '/_authenticated/'
+    | '/_authenticated/destino/$nome'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -258,10 +283,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFavoritosRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/destinos': {
+      id: '/_authenticated/destinos'
+      path: '/destinos'
+      fullPath: '/destinos'
+      preLoaderRoute: typeof AuthenticatedDestinosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/destino/$nome': {
+      id: '/_authenticated/destino/$nome'
+      path: '/destino/$nome'
+      fullPath: '/destino/$nome'
+      preLoaderRoute: typeof AuthenticatedDestinoNomeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedDestinosRoute: typeof AuthenticatedDestinosRoute
   AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
   AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
@@ -271,9 +311,11 @@ interface AuthenticatedRouteChildren {
   AuthenticatedResultadoRoute: typeof AuthenticatedResultadoRoute
   AuthenticatedRoteiroRoute: typeof AuthenticatedRoteiroRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedDestinoNomeRoute: typeof AuthenticatedDestinoNomeRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDestinosRoute: AuthenticatedDestinosRoute,
   AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
   AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
@@ -283,6 +325,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedResultadoRoute: AuthenticatedResultadoRoute,
   AuthenticatedRoteiroRoute: AuthenticatedRoteiroRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedDestinoNomeRoute: AuthenticatedDestinoNomeRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

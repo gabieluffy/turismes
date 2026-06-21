@@ -1,8 +1,9 @@
-from flask import Blueprint, request, jsonify, render_template
-from flask_jwt_extended import jwt_required
-from ..auth import create_user, authenticate_user
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
+from app.auth import create_user, authenticate_user
 from app.models.place import Place
-from  app.models.user import User
+from app.models.user import User
 from app.models.persona import Persona
 from app.models.favorito import Favorito
 from app.services.favoritos_service import FavoritoService
@@ -70,7 +71,15 @@ def criar_favorito():
         return jsonify({
             "erro": "Place não encontrado"
         }), 404
+    favorito_existente = Favorito.query.filter_by(
+        id_user=data["id_user"],
+        id_place=data["id_place"]
+    ).first()
 
+    if favorito_existente:
+        return jsonify({
+            "erro": "Favorito já existe"
+        }), 409
     favorito = Favorito(
         id_user=data["id_user"],
         id_place=data["id_place"]
@@ -81,6 +90,26 @@ def criar_favorito():
     return jsonify(
         favorito.to_dict()
     ), 201
+
+@main.route(
+    "/favorito/<int:id_user>/<int:id_place>",
+    methods=["DELETE"]
+)
+def remover_favorito(id_user, id_place):
+
+    removido = FavoritoService.remover_favorito(
+        id_user=id_user,
+        id_place=id_place
+    )
+
+    if not removido:
+        return jsonify({
+            "erro": "Favorito não encontrado"
+        }), 404
+
+    return jsonify({
+        "mensagem": "Favorito removido com sucesso"
+    }), 200
 
 @main.route("/favorito/<int:id_favorito>", methods=["DELETE"])
 def deletar_favorito(id_favorito):
