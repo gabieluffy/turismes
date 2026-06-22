@@ -32,6 +32,11 @@ type AuthContextType = {
   removerFavorito: ( id_user: number, id_place: number ) => Promise<void>;
   toggleFavorito( id_place: number, favorito: boolean ): Promise<void>;
   usuario: Usuario | null;
+  carregarPerguntas(): Promise<void>;
+  perguntas: Pergunta[];
+  loading: boolean;
+  roteiroCarga(): Promise<void>;
+  roteiro: Roteiro[];
 };
 
 export interface PlaceType {
@@ -86,6 +91,29 @@ export interface Destino {
   description: string;
 }
 
+export interface Alternativa {
+  id: number,
+  texto: string
+}
+
+export interface Pergunta {
+  id: number,
+  titulo: string,
+  alternativas: Alternativa[]
+}
+
+export interface Roteiro {
+  badge: string,
+  cat: [
+    string
+  ],
+  desc: string,
+  icon: string,
+  img: string,
+  next: string,
+  title: string
+}
+
 const host = import.meta.env.VITE_API_URL;
 
 const AuthContext =
@@ -109,7 +137,10 @@ export function AuthProvider({
   const [destinos, setDestinos] = useState<Destino[]>([]);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState<number | null>(null);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-
+  
+  const [perguntas, setPerguntas] = useState<Pergunta[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [ roteiro, setRoteiro ] = useState<Roteiro[]>([]);
   useEffect(() => {
 
     setIsAuthenticated(
@@ -416,6 +447,63 @@ export function AuthProvider({
     }
   }
 
+  async function carregarPerguntas() {
+  try {
+    const response = await fetch(
+      `${host}/quiz/perguntas`
+    );
+
+    const data = await response.json();
+
+    setPerguntas(data);
+    } catch (error) {
+      console.error("Erro ao buscar perguntas", error);
+    } finally {
+    setLoading(false);
+    }
+  }
+
+  async function roteiroCarga() {
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+
+        try {
+
+          const response = await fetch(
+            `${host}/roteiro`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                user_id: 1,
+                user_lat: position.coords.latitude,
+                user_lon: position.coords.longitude
+              })
+            }
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.erro);
+          }
+
+          setRoteiro(data);
+
+        } catch (error) {
+          console.error("Erro ao buscar roteiro:", error);
+        }
+      },
+      (error) => {
+        console.error("Erro ao obter localização:", error);
+      }
+    );
+  }
+
+
     return (
       <AuthContext.Provider
         value={{
@@ -440,7 +528,12 @@ export function AuthProvider({
           adicionarFavorito,
           removerFavorito,
           toggleFavorito,
-          usuario
+          usuario,
+          carregarPerguntas,
+          perguntas,
+          loading,
+          roteiroCarga,
+          roteiro
         }}
       >
         {children}

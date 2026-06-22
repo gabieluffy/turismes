@@ -13,6 +13,7 @@ from app.models.place_categoria import PlaceCategoria
 from app.models.perfiluser import UserPreference
 from app.routes.auth_routes import main
 from app.routes.grafics_routes import grafic
+from app.routes.quiz_routes import quiz
 from app.routes.recommendation_routes import recommendation_bp
 from config import Config, ConfigTeste
 from .seed import seed_database
@@ -39,6 +40,7 @@ def create_app(testing=False):
 
     app.register_blueprint(main)
     app.register_blueprint(grafic)
+    app.register_blueprint(quiz)
     app.register_blueprint(recommendation_bp)
 
     @login_manager.user_loader

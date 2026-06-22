@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
-import { QUESTIONS, type Category } from "@/lib/quiz";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_authenticated/quiz")({
   head: () => ({
@@ -13,35 +13,79 @@ export const Route = createFileRoute("/_authenticated/quiz")({
 });
 
 function QuizPage() {
+  
+  const {
+    carregarPerguntas,
+    perguntas,
+    loading
+  } = useAuth();
+
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
-  const [scores, setScores] = useState<Partial<Record<Category, number>>>({});
   const [selected, setSelected] = useState<number | null>(null);
+  const [respostas, setRespostas] = useState<number[]>([]);
 
-  const total = QUESTIONS.length;
-  const q = QUESTIONS[step];
+  const total = perguntas.length;
+  const q = perguntas[step];
   const progress = ((step + (selected !== null ? 1 : 0)) / total) * 100;
 
-  function handleNext() {
-    if (selected === null) return;
-    const a = q.answers[selected];
-    const newScores = {
-      ...scores,
-      [a.category]: (scores[a.category] ?? 0) + a.points,
-    };
-    setScores(newScores);
+  useEffect(() => {
+    carregarPerguntas();
+  }, []);
 
-    if (step + 1 >= total) {
-      const params = new URLSearchParams();
-      (Object.keys(newScores) as Category[]).forEach((c) => {
-        params.set(c, String(newScores[c] ?? 0));
+function handleNext() {
+  if (selected === null) return;
+
+  const alternativaSelecionada =
+    q.alternativas[selected].id;
+
+  const novasRespostas = [
+    ...respostas,
+    alternativaSelecionada,
+  ];
+
+  setRespostas(novasRespostas);
+  if (step + 1 >= total) {
+
+
+
+
+    /** Passar o resultado para a tabela person_preference */
+    fetch(
+      "http://localhost:5000/quiz/resultado",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          respostas: novasRespostas,
+          id: 1
+        }),
+      }
+    )
+      .then((r) => r.json())
+      .then((resultado) => {
+
+        sessionStorage.setItem(
+          "resultadoQuiz",
+          JSON.stringify(resultado)
+        );
+
+        navigate({
+          to: "/resultado",
+        });
       });
-      navigate({ to: "/resultado", search: Object.fromEntries(params) as never });
-    } else {
-      setStep(step + 1);
-      setSelected(null);
-    }
+
+
+
+
+
+  } else {
+    setStep(step + 1);
+    setSelected(null);
   }
+}
 
   function handlePrev() {
     if (step > 0) {
@@ -54,6 +98,22 @@ function QuizPage() {
     () => ["bg-primary-container", "bg-secondary", "bg-tertiary", "bg-primary"],
     [],
   );
+
+  if (loading) {
+    return (
+      <div className="p-8">
+        Carregando perguntas...
+      </div>
+    );
+  }
+
+  if (!q) {
+    return (
+      <div className="p-8">
+        Nenhuma pergunta encontrada.
+      </div>
+    );
+  }
 
   return (
     <div className="bg-surface font-body text-on-surface min-h-screen flex flex-col">
@@ -80,7 +140,7 @@ function QuizPage() {
         {/* Pergunta */}
         <div className="mb-10">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface mb-4 leading-[1.1]">
-            {q.prompt}
+            {q.titulo}
           </h1>
           <p className="text-on-surface-variant text-lg leading-relaxed">
             Escolha a opção que mais combina com você.
@@ -89,7 +149,7 @@ function QuizPage() {
 
         {/* Opções */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {q.answers.map((a, idx) => {
+          {q.alternativas.map((a, idx) => {
             const isSelected = selected === idx;
             return (
               <button
@@ -107,9 +167,9 @@ function QuizPage() {
                   <Icon name="check" filled={isSelected} />
                 </div>
                 <span className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">
-                  {a.category.replace("_", " ")} +{a.points}
+                  Alternativa {idx + 1}
                 </span>
-                <h3 className="text-xl font-bold leading-tight">{a.label}</h3>
+                <h3 className="text-xl font-bold leading-tight">{a.texto}</h3>
                 {isSelected && (
                   <div className="absolute top-4 right-4 w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center">
                     <Icon name="check" filled style={{ fontSize: 18 }} />
