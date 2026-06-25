@@ -10,7 +10,7 @@ from .models.favorito import Favorito
 from app.models.alternativa import Alternativa
 from app.models.pergunta import Pergunta
 from app.models.place_categoria import PlaceCategoria
-from app.models.perfiluser import UserPreference
+from app.models.quizuser import QuizUser
 from app.routes.auth_routes import main
 from app.routes.grafics_routes import grafic
 from app.routes.quiz_routes import quiz

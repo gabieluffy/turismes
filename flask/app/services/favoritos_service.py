@@ -41,5 +41,10 @@ class FavoritoService():
         return True
 
     @staticmethod
-    def lista_favoritos():
-        return Favorito.query.all()
+    def lista_favoritos(usuario_id):
+        registro = (
+            Favorito.query
+            .filter(Favorito.id_user == usuario_id)
+            .all()
+        )
+        return registro

@@ -1,5 +1,9 @@
 from app.extensions import db, text, bindparam
 from app.models.persona import Persona
+from app.models.user import User
+from app.models.quizuser import QuizUser
+import uuid
+from collections import defaultdict
 
 class QuizService:
     @staticmethod
@@ -32,7 +36,6 @@ class QuizService:
             if item["pontos"] < limite:
                 continue
             categoria = item["categoria"].lower()
-            print("PROCURANDO MAIOR ", categoria)
 
             if categoria == "praia":
                 persona.likes_beach = True
@@ -64,12 +67,13 @@ class QuizService:
         query = text("""
             SELECT
                 c.nome AS categoria,
+                c.id AS id_categoria,
                 SUM(a.pontos) AS pontos
             FROM turismes.alternativas a
             JOIN turismes.categoria c
                 ON c.id = a.categoria_id
             WHERE a.id IN :ids
-            GROUP BY c.nome
+            GROUP BY c.nome, c.id
             ORDER BY pontos DESC
         """).bindparams(
             bindparam("ids", expanding=True)
@@ -127,3 +131,83 @@ class QuizService:
     
 
     
+
+
+
+    # Alterar a tabela de preferencia do usuário 
+    # pois não tem nda que define todos os quizes que o usuário vai fez
+    
+    @staticmethod
+    def salvar_historico(usuario_id, resultado):
+        registros = []
+        quiz_id = str(uuid.uuid4())
+
+        for i in resultado:
+            new_preference_user = QuizUser()
+
+            new_preference_user.usuario_id = usuario_id
+            new_preference_user.quiz_id = quiz_id
+            new_preference_user.categoria_id = i["id_categoria"]
+            new_preference_user.pontuacao = i["pontos"]
+
+            db.session.add(new_preference_user)
+            registros.append(new_preference_user)
+
+        db.session.commit()
+        return registros
+    
+
+
+    
+    @staticmethod
+    def apagar_historico(quiz_id):
+
+        registros = QuizUser.query.filter_by(
+            quiz_id=quiz_id
+        ).all()
+
+        if not registros:
+            return False
+
+        for registro in registros:
+            db.session.delete(registro)
+
+        db.session.commit()
+
+        return True
+    
+
+
+    @staticmethod
+    def buscar_historico_user(usuario_id):
+
+        registros = (
+            QuizUser.query
+            .filter_by(usuario_id=usuario_id)
+            .order_by(QuizUser.data_realizacao.desc())
+            .all()
+        )
+
+        quizzes = {}
+
+        for registro in registros:
+
+            quiz_id = registro.quiz_id
+
+            if quiz_id not in quizzes:
+                quizzes[quiz_id] = {
+                    "quiz_id": quiz_id,
+                    "data_realizacao": registro.data_realizacao.isoformat(),
+                    "pontuacao_total": 0,
+                    "categorias": []
+                }
+
+            quizzes[quiz_id]["pontuacao_total"] += registro.pontuacao
+
+            quizzes[quiz_id]["categorias"].append({
+                "categoria_id": registro.categoria_id,
+                "categoria_nome": registro.categoria.nome,
+                "pontuacao": registro.pontuacao
+            })
+
+        return list(quizzes.values())

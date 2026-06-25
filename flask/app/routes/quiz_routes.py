@@ -21,6 +21,9 @@ def resultado_quiz():
         usuario_id=id,
         resultado=ranking
     )
+
+    # Enviar para o histórico de do usuário
+    QuizService.salvar_historico(usuario_id=id, resultado=ranking)
     
     return jsonify(ranking)
 
@@ -34,3 +37,18 @@ def listar_perguntas():
     perguntas = QuizService.listar_perguntas()
 
     return jsonify(perguntas), 200
+
+# Histórico de quiz
+@quiz.get("/quiz/historico/<int:id_user>")
+def listar_historico_quiz(id_user):
+    
+    historico = QuizService.buscar_historico_user(usuario_id=id_user)
+    
+    return jsonify(historico), 200
+
+
+# Apagar quiz
+@quiz.delete("/quiz/deletar/<string:id_quiz>")
+def deletar_quiz(id_quiz):
+    QuizService.apagar_historico(id_quiz)
+    return jsonify({"mesage":"quiz apagaado "}), 200

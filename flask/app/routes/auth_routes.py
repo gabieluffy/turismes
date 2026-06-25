@@ -125,11 +125,11 @@ def deletar_favorito(id_favorito):
         "message": "Favorito removido com sucesso"
     }), 200
 
-@main.route("/favoritos", methods=["GET"])
+@main.route("/favoritos/<int:id_user>", methods=["GET"])
 #@jwt_required()
-def listar_favoritos_routes():
+def listar_favoritos_routes(id_user):
 
-    lista = FavoritoService.lista_favoritos()
+    lista = FavoritoService.lista_favoritos(id_user)
 
     return jsonify([
         fav.to_dict()

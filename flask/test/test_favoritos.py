@@ -4,7 +4,7 @@ from app.services.favoritos_service import FavoritoService
 from app.models.favorito import Favorito
 
 def test_get_favorites(app):
-    favoritos = FavoritoService.lista_favoritos()
+    favoritos = FavoritoService.lista_favoritos(usuario_id=1)
 
     for fav in favoritos:
         assert fav.id is not None
