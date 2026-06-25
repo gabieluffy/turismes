@@ -4,6 +4,7 @@ import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
 import { useAuth } from "@/hooks/useAuth";
+import { auth } from "@/lib/auth";
 
 export const Route = createFileRoute("/_authenticated/quiz")({
   head: () => ({
@@ -17,7 +18,8 @@ function QuizPage() {
   const {
     carregarPerguntas,
     perguntas,
-    loading
+    loading,
+    resultadoQuiz
   } = useAuth();
 
   const navigate = useNavigate();
@@ -28,6 +30,7 @@ function QuizPage() {
   const total = perguntas.length;
   const q = perguntas[step];
   const progress = ((step + (selected !== null ? 1 : 0)) / total) * 100;
+  const user = auth.getInfoUser();
 
   useEffect(() => {
     carregarPerguntas();
@@ -49,33 +52,21 @@ function handleNext() {
 
 
 
-
-    /** Passar o resultado para a tabela person_preference */
-    fetch(
-      "http://localhost:5000/quiz/resultado",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          respostas: novasRespostas,
-          id: 1
-        }),
-      }
-    )
-      .then((r) => r.json())
-      .then((resultado) => {
-
-        sessionStorage.setItem(
-          "resultadoQuiz",
-          JSON.stringify(resultado)
-        );
-
-        navigate({
-          to: "/resultado",
-        });
+    if (user) {
+      const resultado = resultadoQuiz(
+        user.id,
+        novasRespostas
+      );
+      
+      sessionStorage.setItem(
+        "resultadoQuiz",
+        JSON.stringify(resultado)
+      );
+      
+      navigate({
+        to: "/resultado",
       });
+    }
 
 
 

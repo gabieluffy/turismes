@@ -32,9 +32,7 @@ function LoginPage() {
     }
   }
   
-  if (isAuthenticated){
-    navigate({ to: "/home" });
-  } else{
+
   return (
     <div className="bg-surface text-on-surface min-h-screen flex items-center justify-center p-4 relative">
       <div className="fixed inset-0 z-[-1] overflow-hidden">
@@ -157,4 +155,4 @@ function LoginPage() {
       </main>
     </div>
   )};
-}
+

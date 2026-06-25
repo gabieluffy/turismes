@@ -13,7 +13,7 @@ export const Route = createFileRoute("/_authenticated/perfil")({
 
 const options: { icon: string; label: string; color: string; to?: string }[] = [  { icon: "person_edit", label: "Editar Dados", color: "text-primary" },
   { icon: "landscape", label: "Preferências Turísticas", color: "text-secondary" },
-  { icon: "history_edu", label: "Histórico de Quizzes", color: "text-tertiary" },
+  { icon: "history_edu", label: "Histórico de Quizzes", color: "text-tertiary", to: "/historico" },
   { icon: "tune", label: "Configurações", color: "text-on-surface-variant" },
   { icon: "monitoring", label: "Gráficos", color: "text-primary", to: "/graficos" },
 ];

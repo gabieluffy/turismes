@@ -3,8 +3,8 @@ import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
 import { useAuth } from "@/hooks/useAuth"
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
+import { auth } from "@/lib/auth";
 export const Route = createFileRoute("/_authenticated/favoritos")({
   head: () => ({
     meta: [{ title: "Favoritos — TurismES" }],
@@ -14,18 +14,37 @@ export const Route = createFileRoute("/_authenticated/favoritos")({
 
 function FavoritosPage() {
 
+  async function handleRemoverFavorito(id_place: number) {
+
+    if (!id_user) return;
+
+    await removerFavorito(id_user, id_place);
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      await buscar_favorites_places(id_user, token);
+    }
+  }
+
   const {
     get_all_favorites_places,
-    buscar_favorites_places
+    buscar_favorites_places,
+    removerFavorito
   } = useAuth();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if(token) {
-      buscar_favorites_places(token)   
+    const user = auth.getInfoUser();
+    if(token && user) {
+      buscar_favorites_places(user.id, token)   
     }
   }, []);
 
+  const [favorito, setFavorito] = useState(false)
+  const user = auth.getInfoUser();
+  const id_user = user?.id;
+  
   return (
     <div className="bg-surface text-on-surface min-h-screen pb-32">
       <TopBar />
@@ -49,9 +68,16 @@ function FavoritosPage() {
                   src={f.place.image_url.toString()}
                   alt={f.place.name}
                 />
-                <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full shadow-lg">
-                  <Icon name="favorite" filled className="text-tertiary" />
-                </div>
+              <button
+                onClick={() => handleRemoverFavorito(f.place.id)}
+                className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full shadow-lg hover:scale-110 transition"
+              >
+                <Icon
+                  name="favorite"
+                  filled
+                  className="text-tertiary"
+                />
+              </button>
                 <div className="absolute bottom-4 left-4">
                   <span className={`bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-sm`}>
                     {f.place.category}

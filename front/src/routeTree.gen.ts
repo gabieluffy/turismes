@@ -19,6 +19,7 @@ import { Route as AuthenticatedQuizRouteImport } from './routes/_authenticated/q
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedMapaRouteImport } from './routes/_authenticated/mapa'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedHistoricoRouteImport } from './routes/_authenticated/historico'
 import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated/graficos'
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
 import { Route as AuthenticatedDestinosRouteImport } from './routes/_authenticated/destinos'
@@ -73,6 +74,11 @@ const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedHistoricoRoute = AuthenticatedHistoricoRouteImport.update({
+  id: '/historico',
+  path: '/historico',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedGraficosRoute = AuthenticatedGraficosRouteImport.update({
   id: '/graficos',
   path: '/graficos',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/destinos': typeof AuthenticatedDestinosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/graficos': typeof AuthenticatedGraficosRoute
+  '/historico': typeof AuthenticatedHistoricoRoute
   '/home': typeof AuthenticatedHomeRoute
   '/mapa': typeof AuthenticatedMapaRoute
   '/perfil': typeof AuthenticatedPerfilRoute
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/destinos': typeof AuthenticatedDestinosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/graficos': typeof AuthenticatedGraficosRoute
+  '/historico': typeof AuthenticatedHistoricoRoute
   '/home': typeof AuthenticatedHomeRoute
   '/mapa': typeof AuthenticatedMapaRoute
   '/perfil': typeof AuthenticatedPerfilRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/_authenticated/destinos': typeof AuthenticatedDestinosRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
+  '/_authenticated/historico': typeof AuthenticatedHistoricoRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/mapa': typeof AuthenticatedMapaRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/destinos'
     | '/favoritos'
     | '/graficos'
+    | '/historico'
     | '/home'
     | '/mapa'
     | '/perfil'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/destinos'
     | '/favoritos'
     | '/graficos'
+    | '/historico'
     | '/home'
     | '/mapa'
     | '/perfil'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/_authenticated/destinos'
     | '/_authenticated/favoritos'
     | '/_authenticated/graficos'
+    | '/_authenticated/historico'
     | '/_authenticated/home'
     | '/_authenticated/mapa'
     | '/_authenticated/perfil'
@@ -269,6 +281,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHomeRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/historico': {
+      id: '/_authenticated/historico'
+      path: '/historico'
+      fullPath: '/historico'
+      preLoaderRoute: typeof AuthenticatedHistoricoRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/graficos': {
       id: '/_authenticated/graficos'
       path: '/graficos'
@@ -304,6 +323,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedDestinosRoute: typeof AuthenticatedDestinosRoute
   AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
   AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
+  AuthenticatedHistoricoRoute: typeof AuthenticatedHistoricoRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedMapaRoute: typeof AuthenticatedMapaRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
@@ -318,6 +338,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDestinosRoute: AuthenticatedDestinosRoute,
   AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
   AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
+  AuthenticatedHistoricoRoute: AuthenticatedHistoricoRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedMapaRoute: AuthenticatedMapaRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,

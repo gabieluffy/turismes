@@ -27,38 +27,14 @@ export const Route = createFileRoute("/_authenticated/resultado")({
 });
 
 function ResultPage() {
-  
-  type ResultadoQuiz = {
-    categoria: string;
-    pontos: number;
-  };
-
-  const resultado: ResultadoQuiz[] =
-  JSON.parse(
-    sessionStorage.getItem("resultadoQuiz") ??
-    "[]"
-  );
-
-  if (!resultado.length) {
-    return (
-      <div className="p-8">
-        Resultado não encontrado.
-      </div>
-    );
-  }
-
   const scores = Route.useSearch();
-  //const winner = computeWinner(scores);
-  const winner = resultado[0].categoria as Category;
+  const winner = computeWinner(scores);
   const meta = CATEGORY_META[winner];
-  //const total = Object.values(scores).reduce<number>((a, b) => a + (b ?? 0), 0);
-  const total =
-  resultado.reduce(
-    (acc, item) => acc + item.pontos,
-    0
-  );
+  const total = Object.values(scores).reduce<number>((a, b) => a + (b ?? 0), 0);
 
-  const ranked = resultado;
+  const ranked = (Object.entries(scores) as [Category, number][])
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4);
 
   return (
     <div className="bg-surface text-on-surface min-h-screen pb-32">
@@ -88,8 +64,8 @@ function ResultPage() {
                   Categoria dominante: {meta.name}
                 </h4>
                 <p className="text-sm text-on-surface-variant">
-                  Você somou {total} pontos no total —
-                  {resultado[0].pontos} deles
+                  Você somou {total} pontos no total — {scores[winner]} deles
+                  são da categoria {meta.name}.
                 </p>
               </div>
             </div>
@@ -103,18 +79,12 @@ function ResultPage() {
             <div className="h-1 flex-grow bg-surface-container-low rounded-full ml-2" />
           </h2>
           <div className="space-y-3">
-            {ranked.map((item) => {
-              const m =
-                CATEGORY_META[
-                  item.categoria as Category
-                ];
-              const pct =
-                total > 0
-                ? (item.pontos / total) * 100
-                : 0;
+            {ranked.map(([cat, pts]) => {
+              const m = CATEGORY_META[cat];
+              const pct = total > 0 ? (pts / total) * 100 : 0;
               return (
                 <div
-                  key={item.categoria}
+                  key={cat}
                   className="bg-surface-container-lowest p-4 rounded-2xl shadow-sm"
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -123,7 +93,7 @@ function ResultPage() {
                       <span className="font-bold">{m.name}</span>
                     </div>
                     <span className="text-on-surface-variant font-semibold text-sm">
-                      {item.pontos} pts
+                      {pts} pts
                     </span>
                   </div>
                   <div className="h-2 bg-surface-container-high rounded-full overflow-hidden">

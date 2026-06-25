@@ -129,3 +129,65 @@ export function computeWinner(
   });
   return best;
 }
+
+export type QuizHistoryEntry = {
+  id: string;
+  date: string; // ISO
+  scores: Partial<Record<Category, number>>;
+  winner: Category;
+  total: number;
+};
+
+const HISTORY_KEY = "turismes.quiz.history";
+
+export function getQuizHistory(): QuizHistoryEntry[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(HISTORY_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as QuizHistoryEntry[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveQuizResult(
+  scores: Partial<Record<Category, number>>,
+): QuizHistoryEntry | null {
+  if (typeof window === "undefined") return null;
+  const total = Object.values(scores).reduce<number>(
+    (a, b) => a + (b ?? 0),
+    0,
+  );
+  if (total <= 0) return null;
+  const entry: QuizHistoryEntry = {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    date: new Date().toISOString(),
+    scores,
+    winner: computeWinner(scores),
+    total,
+  };
+  const list = getQuizHistory();
+  // Avoid duplicate if last entry has identical scores within 5s
+  const last = list[0];
+  if (last && Date.now() - new Date(last.date).getTime() < 5000) {
+    const same =
+      JSON.stringify(last.scores) === JSON.stringify(scores);
+    if (same) return last;
+  }
+  const next = [entry, ...list].slice(0, 50);
+  window.localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+  return entry;
+}
+
+export function clearQuizHistory() {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(HISTORY_KEY);
+}
+
+export function deleteQuizHistoryEntry(id: string) {
+  if (typeof window === "undefined") return;
+  const next = getQuizHistory().filter((e) => e.id !== id);
+  window.localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+}

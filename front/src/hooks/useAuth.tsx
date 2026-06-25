@@ -17,7 +17,7 @@ type AuthContextType = {
   get_all_places: PlaceType[];
   busca_places: (token: string) => Promise<void>;
   get_all_favorites_places: FavoritePlaceType[];
-  buscar_favorites_places: (token: string) => Promise<void>;
+  buscar_favorites_places(id_user: number, token: string): Promise<void>
   grafico_fvoritos(): Promise<void>;
   graf_favorites: {categoria: any;favoritos: any;}[];
   graf_local_municipio: {cidade: string;locais: number;}[];
@@ -37,6 +37,11 @@ type AuthContextType = {
   loading: boolean;
   roteiroCarga(): Promise<void>;
   roteiro: Roteiro[];
+  historico: QuizHistorico[];
+  buscar_historico(id_user: number): Promise<void>;
+  resultadoQuiz(id_user: number, resultado: number[]): Promise<void>;
+  resultsQuiz: { id_user: number; resultado: number[];} | undefined;
+  removerQuizHistorico(id_quiz: string): Promise<void>
 };
 
 export interface PlaceType {
@@ -114,6 +119,19 @@ export interface Roteiro {
   title: string
 }
 
+export interface CategoriaHistorico {
+  categoria_id: number;
+  categoria_nome: string;
+  pontuacao: number;
+}
+
+export interface QuizHistorico {
+  quiz_id: string;
+  data_realizacao: string;
+  pontuacao_total: number;
+  categorias: CategoriaHistorico[];
+}
+
 const host = import.meta.env.VITE_API_URL;
 
 const AuthContext =
@@ -141,6 +159,9 @@ export function AuthProvider({
   const [perguntas, setPerguntas] = useState<Pergunta[]>([]);
   const [loading, setLoading] = useState(true);
   const [ roteiro, setRoteiro ] = useState<Roteiro[]>([]);
+  const [historico, setHistorico] = useState<QuizHistorico[]>([]);
+  const [resultsQuiz, setResultsQuiz] = useState<{ id_user: number, resultado: number[] }>();
+
   useEffect(() => {
 
     setIsAuthenticated(
@@ -248,10 +269,13 @@ export function AuthProvider({
     }
   }
 
-  async function buscar_favorites_places(token: string){
+  async function buscar_favorites_places(
+    id_user: number,
+    token: string
+  ) {
     try {
       const response = await fetch(
-        `${host}/favoritos`,
+        `${host}/favoritos/${id_user}`,
         {
           method: "GET",
           headers: {
@@ -264,7 +288,7 @@ export function AuthProvider({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.erro)
+        throw new Error(data.erro);
       }
 
       setAll_favorites_places(data);
@@ -502,7 +526,86 @@ export function AuthProvider({
       }
     );
   }
+  
+  async function resultadoQuiz(
+    id_user: number,
+    resultado: number[]
+  ) {
+    try {
+      const response = await fetch(
+        `${host}/quiz/resultado`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            respostas: resultado,
+            id: id_user
+          }),
+        }
+      );
 
+      if (!response.ok) {
+        throw new Error(
+          `Erro ao gerar resultado: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      setResultsQuiz(data);
+
+      return data;
+
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  async function buscar_historico(id_user:number){
+    try {
+      
+      const response = await fetch(
+        `${host}/quiz/historico/${id_user}`,
+        {method: "GET"}
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+
+      setHistorico(data)
+
+    } catch ( error) {
+      console.error( error)
+    }
+  }
+
+  async function removerQuizHistorico(
+    id_quiz: string
+  ) {
+    try {
+      const response = await fetch(
+        `${host}/quiz/deletar/${id_quiz}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Erro ao remover historico: ${response.status}`
+        );
+      }
+
+      console.log("Quiz removido");
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
     return (
       <AuthContext.Provider
@@ -533,7 +636,12 @@ export function AuthProvider({
           perguntas,
           loading,
           roteiroCarga,
-          roteiro
+          roteiro,
+          historico,
+          buscar_historico,
+          resultsQuiz,
+          resultadoQuiz,
+          removerQuizHistorico
         }}
       >
         {children}

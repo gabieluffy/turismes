@@ -4,7 +4,7 @@ import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
 import { useAuth, Usuario } from "@/hooks/useAuth";
-
+import { auth } from "@/lib/auth";
 export const Route = createFileRoute('/_authenticated/destino/$nome')({
  
   head: ({ params }) => ({
@@ -35,15 +35,18 @@ function DestinoPage() {
   useEffect(() => {
     carregarDestinos();
     const token = localStorage.getItem("token");
-    
-    if(token) {
-      buscar_favorites_places(token)   
+    const id_favorite = auth.getInfoUser()?.id
+    if(token && id_favorite) {
+      buscar_favorites_places(id_favorite, token)   
     }
   }, []);
   
   const { nome } = Route.useParams();
   const destino = useMemo(() => destinos.find((d) => d.slug === nome), [nome]);
   const [favorito, setFavorito] = useState(false)
+  
+  const user = auth.getInfoUser();
+  const id_user = user?.id;
   
   if (!destino) {
     return (
@@ -76,12 +79,16 @@ function DestinoPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/20 to-transparent" />
             <button
               type="button"
-              onClick={() =>
-                toggleFavorito(
-                  destino.id,
-                  favorito
-                )
-              }
+              onClick={async () => {
+                if (!id_user) return;
+
+                await adicionarFavorito(
+                  id_user,
+                  destino.id
+                );
+
+                setFavorito(true);
+              }}
               aria-label={favorito ? "Remover dos favoritos" : "Adicionar aos favoritos"}
               className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-3 rounded-full shadow-lg active:scale-95 transition"
             >
