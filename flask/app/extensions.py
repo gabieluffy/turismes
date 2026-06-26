@@ -4,7 +4,9 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from sqlalchemy import text, bindparam
+from flask_mail import Mail
 
+mail = Mail()
 jwt = JWTManager()
 db = SQLAlchemy()
 login_manager = LoginManager()

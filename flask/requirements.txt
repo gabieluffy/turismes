@@ -13,3 +13,4 @@ gunicorn
 haversine
 alembic
 pytest
+Flask-Mail

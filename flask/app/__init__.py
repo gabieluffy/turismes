@@ -18,6 +18,7 @@ from app.routes.recommendation_routes import recommendation_bp
 from config import Config, ConfigTeste
 from .seed import seed_database
 from sqlalchemy.exc import OperationalError
+from app.extensions import mail
 
 
 def create_app(testing=False):
@@ -31,6 +32,8 @@ def create_app(testing=False):
     cors(app)
     
     db.init_app(app)
+
+    mail.init_app(app)
     login_manager.init_app(app)
     
     app.config["JWT_SECRET_KEY"] = os.getenv("SECRET_KEY", "sua-chave-super-secreta")

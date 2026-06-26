@@ -41,7 +41,15 @@ type AuthContextType = {
   buscar_historico(id_user: number): Promise<void>;
   resultadoQuiz(id_user: number, resultado: number[]): Promise<void>;
   resultsQuiz: { id_user: number; resultado: number[];} | undefined;
-  removerQuizHistorico(id_quiz: string): Promise<void>
+  removerQuizHistorico(id_quiz: string): Promise<void>;
+  perfilUsuario: PerfilUsuario | null;
+  buscarPerfil(id_user: number): Promise<void>;
+  editarPerfil(id_user: number, perfil: PerfilUsuario): Promise<void>;
+  esqueciSenha(email: string): Promise<any>;
+  validarToken(token: string): Promise<any>;
+  redefinirSenha(token: string, novaSenha: string): Promise<any>;
+  loading1: boolean;
+  erro: string | null;
 };
 
 export interface PlaceType {
@@ -132,6 +140,14 @@ export interface QuizHistorico {
   categorias: CategoriaHistorico[];
 }
 
+export interface PerfilUsuario {
+  username: string;
+  email: string;
+  telefone: string;
+  cidade: string;
+  bio: string;
+}
+
 const host = import.meta.env.VITE_API_URL;
 
 const AuthContext =
@@ -161,6 +177,9 @@ export function AuthProvider({
   const [ roteiro, setRoteiro ] = useState<Roteiro[]>([]);
   const [historico, setHistorico] = useState<QuizHistorico[]>([]);
   const [resultsQuiz, setResultsQuiz] = useState<{ id_user: number, resultado: number[] }>();
+  const [perfilUsuario, setPerfilUsuario] = useState<PerfilUsuario | null>(null);
+  const [loading1, setLoading1] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
 
   useEffect(() => {
 
@@ -607,6 +626,166 @@ export function AuthProvider({
     }
   }
 
+  async function buscarPerfil(id_user: number) {
+    try {
+      const response = await fetch(
+        `${host}/usuario/${id_user}`,
+        {
+          method: "GET",
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+
+      setPerfilUsuario(data);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function editarPerfil(
+    id_user: number,
+    perfil: PerfilUsuario
+  ) {
+    try {
+      const response = await fetch(
+        `${host}/usuario/${id_user}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(perfil),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+
+      setPerfilUsuario(data);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function esqueciSenha(email: string) {
+    try {
+      setLoading1(true);
+      setErro(null);
+
+      const response = await fetch(
+        `${host}/auth/esqueci-senha`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+
+      return data;
+
+    } catch (error: any) {
+      setErro(error.message);
+      throw error;
+    } finally {
+      setLoading1(false);
+    }
+  }
+
+  async function validarToken(token: string) {
+    try {
+
+      setLoading1(true);
+      setErro(null);
+
+      const response = await fetch(
+        `${host}/auth/validar-token/${token}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+
+      return data;
+
+    } catch (error: any) {
+
+      setErro(error.message);
+      throw error;
+
+    } finally {
+
+      setLoading1(false);
+
+    }
+
+  }
+
+  async function redefinirSenha(
+    token: string,
+    novaSenha: string
+  ) {
+
+    try {
+
+      setLoading1(true);
+      setErro(null);
+
+      const response = await fetch(
+        `${host}/auth/redefinir-senha`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token,
+            nova_senha: novaSenha,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro);
+      }
+
+      return data;
+
+    } catch (error: any) {
+
+      setErro(error.message);
+      throw error;
+
+    } finally {
+
+      setLoading1(false);
+
+    }
+
+  }
     return (
       <AuthContext.Provider
         value={{
@@ -641,7 +820,15 @@ export function AuthProvider({
           buscar_historico,
           resultsQuiz,
           resultadoQuiz,
-          removerQuizHistorico
+          removerQuizHistorico,
+          perfilUsuario,
+          buscarPerfil,
+          editarPerfil,
+          esqueciSenha,
+          validarToken,
+          redefinirSenha,
+          loading1,
+          erro
         }}
       >
         {children}

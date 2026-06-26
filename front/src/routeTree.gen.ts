@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as EsqueciSenhaRouteImport } from './routes/esqueci-senha'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedRoteiroRouteImport } from './routes/_authenticated/roteiro'
@@ -22,6 +23,7 @@ import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/h
 import { Route as AuthenticatedHistoricoRouteImport } from './routes/_authenticated/historico'
 import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated/graficos'
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
+import { Route as AuthenticatedEditarDadosRouteImport } from './routes/_authenticated/editar-dados'
 import { Route as AuthenticatedDestinosRouteImport } from './routes/_authenticated/destinos'
 import { Route as AuthenticatedDestinoNomeRouteImport } from './routes/_authenticated/destino.$nome'
 
@@ -33,6 +35,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsqueciSenhaRoute = EsqueciSenhaRouteImport.update({
+  id: '/esqueci-senha',
+  path: '/esqueci-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
@@ -89,6 +96,12 @@ const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
   path: '/favoritos',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedEditarDadosRoute =
+  AuthenticatedEditarDadosRouteImport.update({
+    id: '/editar-dados',
+    path: '/editar-dados',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedDestinosRoute = AuthenticatedDestinosRouteImport.update({
   id: '/destinos',
   path: '/destinos',
@@ -103,9 +116,11 @@ const AuthenticatedDestinoNomeRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
+  '/esqueci-senha': typeof EsqueciSenhaRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/destinos': typeof AuthenticatedDestinosRoute
+  '/editar-dados': typeof AuthenticatedEditarDadosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/graficos': typeof AuthenticatedGraficosRoute
   '/historico': typeof AuthenticatedHistoricoRoute
@@ -118,9 +133,11 @@ export interface FileRoutesByFullPath {
   '/destino/$nome': typeof AuthenticatedDestinoNomeRoute
 }
 export interface FileRoutesByTo {
+  '/esqueci-senha': typeof EsqueciSenhaRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/destinos': typeof AuthenticatedDestinosRoute
+  '/editar-dados': typeof AuthenticatedEditarDadosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/graficos': typeof AuthenticatedGraficosRoute
   '/historico': typeof AuthenticatedHistoricoRoute
@@ -136,9 +153,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/esqueci-senha': typeof EsqueciSenhaRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_authenticated/destinos': typeof AuthenticatedDestinosRoute
+  '/_authenticated/editar-dados': typeof AuthenticatedEditarDadosRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
   '/_authenticated/historico': typeof AuthenticatedHistoricoRoute
@@ -155,9 +174,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/esqueci-senha'
     | '/login'
     | '/register'
     | '/destinos'
+    | '/editar-dados'
     | '/favoritos'
     | '/graficos'
     | '/historico'
@@ -170,9 +191,11 @@ export interface FileRouteTypes {
     | '/destino/$nome'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/esqueci-senha'
     | '/login'
     | '/register'
     | '/destinos'
+    | '/editar-dados'
     | '/favoritos'
     | '/graficos'
     | '/historico'
@@ -187,9 +210,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/esqueci-senha'
     | '/login'
     | '/register'
     | '/_authenticated/destinos'
+    | '/_authenticated/editar-dados'
     | '/_authenticated/favoritos'
     | '/_authenticated/graficos'
     | '/_authenticated/historico'
@@ -205,6 +230,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  EsqueciSenhaRoute: typeof EsqueciSenhaRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
 }
@@ -223,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/esqueci-senha': {
+      id: '/esqueci-senha'
+      path: '/esqueci-senha'
+      fullPath: '/esqueci-senha'
+      preLoaderRoute: typeof EsqueciSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -302,6 +335,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFavoritosRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/editar-dados': {
+      id: '/_authenticated/editar-dados'
+      path: '/editar-dados'
+      fullPath: '/editar-dados'
+      preLoaderRoute: typeof AuthenticatedEditarDadosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/destinos': {
       id: '/_authenticated/destinos'
       path: '/destinos'
@@ -321,6 +361,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedDestinosRoute: typeof AuthenticatedDestinosRoute
+  AuthenticatedEditarDadosRoute: typeof AuthenticatedEditarDadosRoute
   AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
   AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
   AuthenticatedHistoricoRoute: typeof AuthenticatedHistoricoRoute
@@ -336,6 +377,7 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDestinosRoute: AuthenticatedDestinosRoute,
+  AuthenticatedEditarDadosRoute: AuthenticatedEditarDadosRoute,
   AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
   AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
   AuthenticatedHistoricoRoute: AuthenticatedHistoricoRoute,
@@ -355,6 +397,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  EsqueciSenhaRoute: EsqueciSenhaRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
 }

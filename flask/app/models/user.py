@@ -7,7 +7,15 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+    telefone = db.Column(db.String(20))
+    cidade = db.Column(db.String(100))
+    bio = db.Column(db.TEXT)
 
+    reset_token = db.Column(db.String(100), nullable=True)
+    reset_token_expiration = db.Column(
+        db.DateTime(timezone=True),
+        nullable=True
+    )
 
     def to_dict(self):
 
@@ -15,5 +23,7 @@ class User(db.Model, UserMixin):
             "id": self.id,
             "username": self.username,
             "email": self.email,
-            "password": self.password
+            "telefone": self.telefone,
+            "cidade": self.cidade,
+            "bio": self.bio
         }

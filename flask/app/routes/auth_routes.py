@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from datetime import datetime, UTC
 
 from app.auth import create_user, authenticate_user
 from app.models.place import Place
@@ -11,6 +12,7 @@ from app.models.avaliacao import Avaliacao
 from app.services.avaliacoes_service import AvaliacoesService
 from app.models.place import Place
 from app.services.recommendation_service import RecommendationService
+from app.services.auth_service import UserService
 from app.extensions import db
 
 main = Blueprint("main", __name__)
@@ -179,3 +181,99 @@ def criar_roteiro():
     )
 
     return jsonify(roteiro), 200
+
+#   Editar dados user
+@main.put("/usuario/<int:id_usuario>")
+def editar_usuario(id_usuario):
+
+    dados = request.get_json()
+
+    usuario = UserService.editar_usuario(
+        id_usuario=id_usuario,
+        username=dados.get("username"),
+        email=dados.get("email"),
+        telefone=dados.get("telefone"),
+        cidade=dados.get("cidade"),
+        bio=dados.get("bio")
+    )
+
+    if not usuario:
+        return jsonify({
+            "erro": "Usuário não encontrado"
+        }), 404
+
+    return jsonify(usuario.to_dict()), 200
+
+@main.get("/usuario/<int:id_user>")
+def buscar_usuario(id_user):
+
+    usuario = User.query.get(id_user)
+
+    if not usuario:
+        return {"erro": "Usuário não encontrado"}, 404
+
+    return {
+        "username": usuario.username,
+        "email": usuario.email,
+        "telefone": usuario.telefone,
+        "cidade": usuario.cidade,
+        "bio": usuario.bio
+    }, 200
+
+@main.route("/auth/esqueci-senha", methods=["POST"])
+def esqueci_senha():
+
+    data = request.get_json()
+
+    UserService.gerar_token_recuperacao(
+        data["email"]
+    )
+
+    return jsonify({
+        "mensagem":
+        "Se existir uma conta com esse e-mail, enviaremos um link para recuperação."
+    }),200
+
+
+@main.route("/auth/redefinir-senha", methods=["POST"])
+def redefinir_senha():
+
+    data = request.get_json()
+
+    token = data.get("token")
+    nova_senha = data.get("nova_senha")
+
+    if not token or not nova_senha:
+        return jsonify({
+            "erro": "Dados inválidos"
+        }), 400
+
+    sucesso = UserService.redefinir_senha(
+        token,
+        nova_senha
+    )
+
+    if not sucesso:
+        return jsonify({
+            "erro": "Token inválido ou expirado"
+        }), 400
+
+    return jsonify({
+        "mensagem": "Senha alterada com sucesso"
+    }), 200
+
+
+
+@main.route("/auth/validar-token/<token>", methods=["GET"])
+def validar_token_route(token):
+
+    usuario = UserService.validar_token(token)
+
+    if usuario is None:
+        return jsonify({
+            "erro": "Token inválido ou expirado"
+        }), 400
+
+    return jsonify({
+        "mensagem": "Token válido"
+    }), 200

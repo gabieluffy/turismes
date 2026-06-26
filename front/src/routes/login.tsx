@@ -89,9 +89,9 @@ function LoginPage() {
                 <label className="text-sm font-semibold text-on-surface-variant">
                   Senha
                 </label>
-                <a className="text-xs font-bold text-primary" href="#">
+                <Link to="/esqueci-senha" className="text-xs font-bold text-primary hover:underline">
                   Esqueceu?
-                </a>
+                </Link>
               </div>
               <div className="relative">
                 <Icon
@@ -125,25 +125,6 @@ function LoginPage() {
             
           </form>
 
-          {/* <div className="mt-8">
-            <div className="relative flex items-center mb-6">
-              <div className="flex-grow border-t border-outline-variant/30" />
-              <span className="flex-shrink mx-4 text-xs font-bold text-outline tracking-widest uppercase">
-                Ou entre com
-              </span>
-              <div className="flex-grow border-t border-outline-variant/30" />
-            </div>
-            <button
-              type="button"
-              onClick={() => navigate({ to: "/home" })}
-              className="w-full flex items-center justify-center gap-3 bg-surface-container-lowest border border-outline-variant/20 py-3.5 rounded-full text-on-surface-variant font-semibold shadow-sm hover:bg-surface-container-low"
-            >
-              <span className="w-5 h-5 inline-flex items-center justify-center font-bold text-primary">
-                G
-              </span>
-              Entrar com Google
-            </button> 
-          </div>*/}
         </div>
 
         <p className="text-center mt-8 text-on-surface/70 font-medium">

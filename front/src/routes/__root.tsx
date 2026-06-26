@@ -58,6 +58,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
         />
+        <link rel="icon" type="image/x-icon" href="public/favicon.svg"/>
         <HeadContent />
       </head>
       <body>

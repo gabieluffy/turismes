@@ -21,12 +21,7 @@ function Splash() {
         <div className="mb-6 relative flex items-center justify-center">
           <div className="absolute inset-0 bg-primary/10 rounded-full blur-2xl scale-150" />
           <div className="glass-panel w-28 h-28 rounded-full flex items-center justify-center shadow-2xl shadow-primary/20 border border-white/40">
-            <span
-              className="material-symbols-outlined text-primary text-7xl"
-              style={{ fontSize: 72, fontVariationSettings: "'wght' 200" }}
-            >
-              explore
-            </span>
+
           </div>
         </div>
         <h1 className="text-6xl font-extrabold tracking-tighter text-primary drop-shadow-sm mb-4">

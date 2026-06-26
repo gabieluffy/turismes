@@ -3,6 +3,7 @@ import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
 import { useAuth } from "@/hooks/useAuth";
+import { auth } from "@/lib/auth";
 
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({
@@ -11,10 +12,9 @@ export const Route = createFileRoute("/_authenticated/perfil")({
   component: PerfilPage,
 });
 
-const options: { icon: string; label: string; color: string; to?: string }[] = [  { icon: "person_edit", label: "Editar Dados", color: "text-primary" },
-  { icon: "landscape", label: "Preferências Turísticas", color: "text-secondary" },
+const options: { icon: string; label: string; color: string; to?: string }[] = [  { icon: "person_edit", label: "Editar Dados", color: "text-primary", to: "/editar-dados" },
+  //{ icon: "landscape", label: "Preferências Turísticas", color: "text-secondary", to: "/preferencias" },
   { icon: "history_edu", label: "Histórico de Quizzes", color: "text-tertiary", to: "/historico" },
-  { icon: "tune", label: "Configurações", color: "text-on-surface-variant" },
   { icon: "monitoring", label: "Gráficos", color: "text-primary", to: "/graficos" },
 ];
 
@@ -26,47 +26,27 @@ function PerfilPage() {
     logout();
     navigate({ to: "/login" });
   }
+  const usuario = auth.getInfoUser();
 
   return (
     <div className="bg-surface text-on-surface min-h-screen pb-32">
       <TopBar avatar={false} />
       <main className="pt-24 px-6 max-w-md mx-auto">
         <section className="flex flex-col items-center mb-10">
-          <div className="relative mb-4">
-            <div className="w-32 h-32 rounded-2xl overflow-hidden shadow-lg ring-4 ring-surface-container-lowest">
-              <img
-                className="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJx9as3zI6EcdXaoeUuIE5i8TLdj3ED5H3QXTW3RG6OGOyN-w3xMvGy6Ld8hoH3G9-7jVskQXAEnB4rtkzy7k9c6zUPM55RrANr5rZsbYvme3a7DnUyJGLZ8Eh1jgSmXCcIlsa7LgGoMJex4Hjb-YgneaExjyWhGw9zqasT7GGHjJyjtvC00Iz6KKaB9LBEp9z5o0stWjVcZ1pinxVGSzOb6ZZZcm47mwryUtKIPSuYkvbhk4e1huK8ojvADxQRP7RFDcKzpDIjvZ9"
-                alt="João Capixaba"
-              />
-            </div>
-            <div className="absolute -bottom-2 -right-2 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
-              Level 5
-            </div>
+          <div className="w-32 h-32 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-extrabold shadow-lg">
+            {usuario?.username?.charAt(0).toUpperCase()}
           </div>
-          <h2 className="text-2xl font-extrabold tracking-tight mb-1">João Capixaba</h2>
-          <div className="flex items-center gap-2 bg-primary-container/10 text-primary px-4 py-1.5 rounded-full">
-            <Icon name="verified" filled style={{ fontSize: 16 }} />
-            <span className="text-sm font-semibold">Explorador Nível 5</span>
-          </div>
+
+          <h2 className="text-2xl font-extrabold tracking-tight mt-4 mb-1">
+            {usuario?.username}
+          </h2>
+
+          <p className="text-on-surface-variant">
+            {usuario?.email}
+          </p>
         </section>
 
-        <section className="grid grid-cols-2 gap-4 mb-10">
-          <div className="bg-surface-container-lowest p-5 rounded-2xl flex flex-col gap-1 shadow-sm">
-            <span className="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">
-              Conquistas
-            </span>
-            <span className="text-2xl font-extrabold text-primary">12</span>
-            <span className="text-xs text-on-surface-variant/80">Distintivos Capixabas</span>
-          </div>
-          <div className="bg-surface-container-lowest p-5 rounded-2xl flex flex-col gap-1 shadow-sm">
-            <span className="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">
-              Viagens
-            </span>
-            <span className="text-2xl font-extrabold text-secondary">28</span>
-            <span className="text-xs text-on-surface-variant/80">Destinos no ES</span>
-          </div>
-        </section>
+        
 
         <section className="flex flex-col gap-3 mb-12">
           <h3 className="text-sm font-bold text-on-surface-variant uppercase tracking-widest ml-1 mb-2">
