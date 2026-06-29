@@ -4,6 +4,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { Icon } from "@/components/Icon";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
+import { auth } from "@/lib/auth";
 
 export const Route = createFileRoute("/_authenticated/roteiro")({
   head: () => ({
@@ -20,7 +21,10 @@ function RoteiroPage() {
   } = useAuth()
 
   useEffect(() => {
-    roteiroCarga()
+    const user = auth.getInfoUser();
+    if(user) {
+      roteiroCarga(user.id)
+    }
   }, [])
 
   return (

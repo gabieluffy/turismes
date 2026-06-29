@@ -166,10 +166,9 @@ def criar_roteiro():
 
     data = request.get_json()
 
-    persona = db.session.get(
-        Persona,
-        data["user_id"]
-    )
+    persona = Persona.query.filter_by(
+        user_id=data["user_id"]
+    ).first()
 
     user_lat = data["user_lat"]
     user_lon = data["user_lon"]

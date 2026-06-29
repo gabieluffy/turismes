@@ -7,35 +7,57 @@ import {
   computeWinner,
   type Category,
 } from "@/lib/quiz";
+import { useAuth } from "@/hooks/useAuth";
 
-type Search = Partial<Record<Category, number>>;
 
 export const Route = createFileRoute("/_authenticated/resultado")({
   head: () => ({
-    meta: [{ title: "Resultado do Quiz — TurismES" }],
+    meta: [
+      {
+        title: "Resultado do Quiz — TurismES",
+      },
+    ],
   }),
-  validateSearch: (search: Record<string, unknown>): Search => {
-    const out: Search = {};
-    (Object.keys(CATEGORY_META) as Category[]).forEach((c) => {
-      const raw = search[c];
-      const n = typeof raw === "string" ? Number(raw) : typeof raw === "number" ? raw : 0;
-      if (!Number.isNaN(n) && n > 0) out[c] = n;
-    });
-    return out;
-  },
   component: ResultPage,
 });
 
 function ResultPage() {
-  const scores = Route.useSearch();
-  const winner = computeWinner(scores);
-  const meta = CATEGORY_META[winner];
-  const total = Object.values(scores).reduce<number>((a, b) => a + (b ?? 0), 0);
+  
+  
 
+  const {
+    resultsQuiz
+  } = useAuth();
+
+  const scores: Record<string, number> = {};
+  
+  console.log("Resultado:", resultsQuiz);
+  
+  resultsQuiz.forEach((item) => {
+    scores[item.categoria] = item.pontos;
+  });
+  
+  const winner = Object.entries(scores).reduce(
+    (maior, atual) => atual[1] > maior[1] ? atual : maior
+  )[0];
+  
+  const meta = CATEGORY_META[winner as Category];
+
+  const total = Object.values(scores).reduce(
+      (acc, valor) => acc + valor,
+      0
+  );
   const ranked = (Object.entries(scores) as [Category, number][])
     .sort((a, b) => b[1] - a[1])
     .slice(0, 4);
 
+  if (resultsQuiz.length === 0) {
+    return (
+        <div className="pt-24 text-center">
+            Resultado não encontrado.
+        </div>
+    );
+  }
   return (
     <div className="bg-surface text-on-surface min-h-screen pb-32">
       <TopBar />
@@ -64,7 +86,7 @@ function ResultPage() {
                   Categoria dominante: {meta.name}
                 </h4>
                 <p className="text-sm text-on-surface-variant">
-                  Você somou {total} pontos no total — {scores[winner]} deles
+                  Você somou {total} pontos no total — {total} 
                   são da categoria {meta.name}.
                 </p>
               </div>

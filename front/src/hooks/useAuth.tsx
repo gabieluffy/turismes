@@ -35,12 +35,12 @@ type AuthContextType = {
   carregarPerguntas(): Promise<void>;
   perguntas: Pergunta[];
   loading: boolean;
-  roteiroCarga(): Promise<void>;
+  roteiroCarga(user_id: number): Promise<void>;
   roteiro: Roteiro[];
   historico: QuizHistorico[];
   buscar_historico(id_user: number): Promise<void>;
   resultadoQuiz(id_user: number, resultado: number[]): Promise<void>;
-  resultsQuiz: { id_user: number; resultado: number[];} | undefined;
+  resultsQuiz: ResultadoQuiz[];
   removerQuizHistorico(id_quiz: string): Promise<void>;
   perfilUsuario: PerfilUsuario | null;
   buscarPerfil(id_user: number): Promise<void>;
@@ -148,6 +148,11 @@ export interface PerfilUsuario {
   bio: string;
 }
 
+export type ResultadoQuiz = {
+    categoria: string;
+    id_categoria: number;
+    pontos: number;
+};
 const host = import.meta.env.VITE_API_URL;
 
 const AuthContext =
@@ -176,7 +181,8 @@ export function AuthProvider({
   const [loading, setLoading] = useState(true);
   const [ roteiro, setRoteiro ] = useState<Roteiro[]>([]);
   const [historico, setHistorico] = useState<QuizHistorico[]>([]);
-  const [resultsQuiz, setResultsQuiz] = useState<{ id_user: number, resultado: number[] }>();
+  //const [resultsQuiz, setResultsQuiz] = useState<{ id_user: number, resultado: number[] }>();
+  const [resultsQuiz, setResultsQuiz] = useState<ResultadoQuiz[]>([]);
   const [perfilUsuario, setPerfilUsuario] = useState<PerfilUsuario | null>(null);
   const [loading1, setLoading1] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
@@ -506,10 +512,10 @@ export function AuthProvider({
     }
   }
 
-  async function roteiroCarga() {
+  async function roteiroCarga(user_id: number) {
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
+    //navigator.geolocation.getCurrentPosition(
+      //async (position) => {
 
         try {
 
@@ -521,9 +527,9 @@ export function AuthProvider({
                 "Content-Type": "application/json"
               },
               body: JSON.stringify({
-                user_id: 1,
-                user_lat: position.coords.latitude,
-                user_lon: position.coords.longitude
+                user_id: user_id,
+                user_lat: -20.3720859,//position.coords.latitude,
+                user_lon: -40.391541//position.coords.longitude
               })
             }
           );
@@ -539,11 +545,11 @@ export function AuthProvider({
         } catch (error) {
           console.error("Erro ao buscar roteiro:", error);
         }
-      },
-      (error) => {
-        console.error("Erro ao obter localização:", error);
-      }
-    );
+      //},
+      //(error) => {
+      //  console.error("Erro ao obter localização:", error);
+      //}
+    //);
   }
   
   async function resultadoQuiz(
